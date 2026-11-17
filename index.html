@@ -570,7 +570,7 @@
 
                 </section>
 
-               
+
 
                 <section class="card" id="mission2">
 
@@ -637,9 +637,9 @@
                     <p>search the data base</p>
 
                     <div class="code-box">
-                        Search the data base <br><br>
-                        for a person named rahaf <br><br>
-                       her email is the flag 
+                        Inspect the fictional training response. <br><br>
+                        Find the training agent named rahaf. <br><br>
+                        Her challenge_flag is the answer.
                     </div>
 
                     <form data-mission="2">
@@ -1141,19 +1141,22 @@
 
         // FINAL LAB
 
-        $("startFinal").onclick = () => {
-
-            if (
-                !state ||
-                !state.solved[0] ||
-                !state.solved[1]
-            ) return;
-
-            finalStarted = true;
-
-            terminalLog("[ UNLOCKED ] Final lab.");
-
-            render();
+        $("startFinal").onclick = async () => {
+            if (!state || !state.solved[0] || !state.solved[1]) return;
+            const button = $("startFinal");
+            button.disabled = true;
+            try {
+                const { error } = await db.rpc("get_lab3_flag", {}, { get: true });
+                if (error) throw error;
+                finalStarted = true;
+                terminalLog("[ UNLOCKED ] Final lab.");
+                render();
+            } catch (error) {
+                terminalLog("[ ERROR ] " + error.message);
+                alert("Training request failed: " + error.message);
+            } finally {
+                button.disabled = false;
+            }
         };
 
         // VERIFY FLAGS
@@ -1407,3 +1410,4 @@
 
 </body>
 </html>
+
