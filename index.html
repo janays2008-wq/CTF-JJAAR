@@ -1,0 +1,1409 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER-JJAAR | CTF</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #00ff9d;
+            --blue: #38bdf8;
+            --dark: #050b12;
+            --panel: #0b1825;
+            --border: #23544d;
+        }
+
+        body {
+            margin: 0;
+            background: var(--dark);
+            color: #d7f7ff;
+            font-family: Consolas, monospace;
+        }
+
+        #matrix {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: .13;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header {
+            padding: 20px 5%;
+            background: #07111c;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            color: var(--green);
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+            nav button {
+                width: auto;
+                margin: 0;
+                background: transparent;
+                color: var(--green);
+                border: 1px solid var(--border);
+            }
+
+        main {
+            max-width: 1050px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+            .hero h1 {
+                color: var(--green);
+                font-size: clamp(35px, 7vw, 65px);
+                letter-spacing: 4px;
+                text-shadow: 0 0 30px #00ff9d66;
+            }
+
+            .hero p {
+                color: var(--blue);
+                letter-spacing: 2px;
+            }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 28px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--green);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+
+            label::before {
+                content: "> ";
+                color: var(--green);
+            }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            background: #050d16;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: white;
+            font: inherit;
+            outline: none;
+        }
+
+            input:focus {
+                border-color: var(--green);
+                box-shadow: 0 0 12px #00ff9d44;
+            }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+            background: var(--green);
+            color: #041019;
+            border: none;
+            border-radius: 7px;
+            font: inherit;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: var(--blue);
+                color: #041019;
+            }
+
+            button:disabled {
+                opacity: .5;
+                cursor: not-allowed;
+            }
+
+        .terminal {
+            background: #03090f;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .terminal-header {
+            background: #142330;
+            padding: 15px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background: #ff5f57;
+        }
+
+        .yellow {
+            background: #febc2e;
+        }
+
+        .green {
+            background: #28c840;
+        }
+
+        #terminalOutput {
+            min-height: 140px;
+            max-height: 270px;
+            overflow-y: auto;
+            padding: 20px;
+            color: var(--green);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.8;
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+        }
+
+            .command-line input {
+                flex: 1;
+                min-width: 0;
+                margin: 0;
+            }
+
+            .command-line button {
+                width: auto;
+                margin: 0;
+            }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 8px;
+            text-align: center;
+            color: var(--green);
+        }
+
+            .stat strong {
+                display: block;
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+
+        .notice {
+            background: #102837;
+            color: #87f7d5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .mission-number {
+            color: var(--green);
+            font-size: 12px;
+            border: 1px solid var(--border);
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .code-box {
+            background: #030a11;
+            border: 1px dashed var(--green);
+            padding: 20px;
+            color: var(--green);
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .score {
+            color: var(--green);
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        progress {
+            width: 100%;
+            height: 16px;
+            accent-color: var(--green);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .error {
+            color: #ff647c;
+        }
+
+        .success {
+            color: var(--green);
+        }
+
+        .live {
+            color: var(--green);
+            font-size: 12px;
+        }
+
+        .podium {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .podium-card {
+            padding: 25px 10px;
+            text-align: center;
+            background: #081521;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .first {
+            border-color: gold;
+        }
+
+        .second {
+            border-color: silver;
+        }
+
+        .third {
+            border-color: #cd956a;
+        }
+
+        .medal {
+            font-size: 35px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--blue);
+        }
+
+        .rank {
+            color: gold;
+        }
+
+        .score-cell {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #668d95;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 12px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .command-line {
+                flex-wrap: wrap;
+            }
+
+            .stat {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <header>
+        <div class="brand">CYS - CTF </div>
+
+        <nav>
+            <button id="homeBtn">MISSIONS</button>
+            <button id="leaderboardBtn">LEADERBOARD</button>
+        </nav>
+
+        <span class="live">● TRAINING SYSTEM</span>
+    </header>
+
+    <main>
+
+        <div class="hero">
+            <h1>CYBERSECURITY</h1>
+            <p>THINK // INVESTIGATE // DISCOVER</p>
+            <p>CYBERSECURITY CHALLENGE</p>
+        </div>
+
+        <div id="mainPage">
+
+            <div class="stats">
+                <div class="stat">
+                    <strong>03</strong>
+                    MISSIONS
+                </div>
+
+                <div class="stat">
+                    <strong>600</strong>
+                    POINTS
+                </div>
+
+                <div class="stat">
+                    <strong>LIVE</strong>
+                    RANKING
+                </div>
+            </div>
+
+            <!-- TERMINAL -->
+
+            <section class="terminal">
+
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <small>cyberarena — terminal</small>
+                </div>
+
+                <div id="terminalOutput"></div>
+
+                <form id="terminalForm" class="command-line">
+                    <span>agent@arena:~$</span>
+
+                    <input id="command"
+                           placeholder="Type help"
+                           autocomplete="off">
+
+                    <button type="submit">RUN</button>
+                </form>
+
+            </section>
+
+            <!-- REGISTRATION -->
+
+            <section class="card" id="registration">
+
+                <h2>01 // AGENT REGISTRATION</h2>
+
+                <form id="regForm">
+
+                    <label for="name">Agent Name</label>
+
+                    <input id="name"
+                           type="text"
+                           placeholder="Choose your nickname"
+                           maxlength="40"
+                           required>
+
+                    <label for="participantNumber">
+                        Participant Number
+                    </label>
+
+                    <input id="participantNumber"
+                           type="text"
+                           placeholder="Choose your game ID"
+                           maxlength="30"
+                           required>
+
+                    <label for="email">Training Email</label>
+
+                    <input id="email"
+                           type="email"
+                           placeholder="Choose your training email"
+                           maxlength="120"
+                           autocomplete="off"
+                           required>
+
+                    <div class="notice">
+                        Choose your own fictional training details.
+                        Use a training email ending in
+                        @example.com, @example.org,
+                        @example.net or @example.invalid.
+                    </div>
+
+                    <button type="submit">
+                        INITIALIZE MISSION
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- DASHBOARD -->
+
+            <div id="game" hidden>
+
+                <section class="card">
+
+                    <h2>AGENT DASHBOARD</h2>
+
+                    <p id="welcome"></p>
+
+                    <div class="stats">
+
+                        <div class="stat">
+                            <strong id="score">0</strong>
+                            SCORE / 600
+                        </div>
+
+                        <div class="stat">
+                            <strong id="timer">00:00</strong>
+                            TIME
+                        </div>
+
+                        <div class="stat">
+                            <strong id="labCount">0/3</strong>
+                            LABS
+                        </div>
+
+                    </div>
+
+                    <progress id="progress" max="3" value="0">
+                    </progress>
+
+                    <button id="viewRanking">
+                        VIEW LEADERBOARD
+                    </button>
+
+                </section>
+
+
+                <section class="card" id="mission1">
+
+                    <span class="mission-number">
+                        LAB 01 // EASY // 100 POINTS
+                    </span>
+
+                    <h2>Behind the Screen</h2>
+
+                    <p>
+                        Inspect this training page's HTML source
+                        and discover the first flag.
+                    </p>
+
+                    <!-- CTF{source_detective} -->
+
+                    <form data-mission="0">
+
+                        <label>Flag 01</label>
+
+                        <input required
+                               placeholder="CTF{...}"
+                               autocomplete="off">
+
+                        <button type="submit">
+                            SUBMIT FLAG
+                        </button>
+
+                        <p class="mission-status"></p>
+
+                    </form>
+
+                </section>
+
+               
+
+                <section class="card" id="mission2">
+
+                    <span class="mission-number">
+                        LAB 02 // MEDIUM // 200 POINTS
+                    </span>
+
+                    <h2>Silent Transmission</h2>
+
+                    <p>Decode the training message.</p>
+
+                    <div class="code-box">
+                        Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==
+                    </div>
+
+                    <div class="notice">
+                        HINT: Base64 decoding.
+                    </div>
+
+                    <form data-mission="1">
+
+                        <label>Flag 02</label>
+
+                        <input required
+                               placeholder="CTF{...}"
+                               autocomplete="off">
+
+                        <button type="submit">
+                            SUBMIT FLAG
+                        </button>
+
+                        <p class="mission-status"></p>
+
+                    </form>
+
+                </section>
+
+                <!-- FINAL GATE -->
+
+                <section class="card center" id="gate" hidden>
+
+                    <h2>ACCESS GRANTED</h2>
+
+                    <div class="score">300 / 600</div>
+
+                    <p>First two labs completed.</p>
+
+                    <button id="startFinal">
+                        UNLOCK FINAL LAB
+                    </button>
+
+                </section>
+
+                <!-- LAB 3 -->
+
+                <section class="card" id="final" hidden>
+
+                    <span class="mission-number">
+                        LAB 03 // FINAL // 300 POINTS
+                    </span>
+
+                    <h2>The Hidden Flag</h2>
+
+                    <p>search the data base</p>
+
+                    <div class="code-box">
+                        Search the data base <br><br>
+                        for a person named rahaf <br><br>
+                       her email is the flag 
+                    </div>
+
+                    <form data-mission="2">
+
+                        <label>Final Flag</label>
+
+                        <input required
+                               placeholder="GG{...}"
+                               autocomplete="off">
+
+                        <button type="submit">
+                            VERIFY FLAG
+                        </button>
+
+                        <p class="mission-status"></p>
+
+                    </form>
+
+                </section>
+
+                <!-- COMPLETED -->
+
+                <section class="card center" id="complete" hidden>
+
+                    <h1 class="success">MISSION COMPLETE!</h1>
+
+                    <div class="score">600 / 600</div>
+
+                    <h2>Congratulations, Agent!</h2>
+
+                    <p id="finalTime"></p>
+
+                    <div class="notice">
+                        Your final score has been saved.
+                    </div>
+
+                    <button id="finalRanking">
+                        VIEW FINAL RANKING
+                    </button>
+
+                </section>
+
+            </div>
+
+        </div>
+
+        <!-- LEADERBOARD -->
+
+        <section id="leaderboardPage" hidden>
+
+            <div class="card">
+
+                <div class="center">
+                    <div style="font-size:45px">🏆</div>
+                    <h2>LIVE LEADERBOARD</h2>
+                    <p>TOP CYBER AGENTS</p>
+                    <p class="live">
+                        ● AUTO REFRESH EVERY 5 SECONDS
+                    </p>
+                </div>
+
+                <div id="podium" class="podium"></div>
+
+                <div class="table-wrap">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>RANK</th>
+                                <th>AGENT</th>
+                                <th>LABS</th>
+                                <th>SCORE</th>
+                                <th>TIME</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="rankingBody"></tbody>
+                    </table>
+
+                </div>
+
+                <p id="rankingStatus"></p>
+
+                <button id="refreshRanking">
+                    REFRESH LEADERBOARD
+                </button>
+
+                <button id="backBtn">
+                    BACK TO MISSIONS
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        CYBERSECURITY TRAINING
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        // SUPABASE
+
+        const SUPABASE_URL =
+            "https://oeqhoypopwnjmgrtfcuh.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
+
+        const db = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        const $ = id => document.getElementById(id);
+
+        const points = [100, 200, 300];
+
+        let state = null;
+        let finalStarted = false;
+        let saving = false;
+        let rankingLoading = false;
+
+        const flagHashes = [
+            "cc3351d777e28a673546a5108749441474145b87b3d7ed8ff2d5557b62a709e7",
+            "389e395c7f639035d72fdb59d44a87378d7d52564324c160404424dcfd8e853c",
+            "d7bc4195ca1e6040df7646b510c11f035237d6aab9cbfe5da0f4e1ae4771c7af"
+        ];
+
+        // TERMINAL
+
+        function terminalLog(message) {
+
+            const output = $("terminalOutput");
+
+            output.textContent += message + "\n";
+
+            output.scrollTop = output.scrollHeight;
+        }
+
+        terminalLog("[ OK ] CyberArena initialized.");
+        terminalLog("[ OK ] Training modules loaded.");
+        terminalLog("[ READY ] Awaiting registration.");
+        terminalLog("Type 'help' for commands.");
+
+        $("terminalForm").onsubmit = event => {
+
+            event.preventDefault();
+
+            const command =
+                $("command").value.trim().toLowerCase();
+
+            $("command").value = "";
+
+            if (!command) return;
+
+            terminalLog("agent@arena:~$ " + command);
+
+            switch (command) {
+
+                case "help":
+                    terminalLog(
+                        "help - Show commands\n" +
+                        "status - Current score\n" +
+                        "missions - List missions\n" +
+                        "leaderboard - View rankings\n" +
+                        "time - Current timer\n" +
+                        "clear - Clear terminal\n" +
+                        "about - About platform"
+                    );
+                    break;
+
+                case "status":
+                    terminalLog(
+                        "Score: " + calculateScore() + "/600"
+                    );
+                    break;
+
+                case "missions":
+                    terminalLog(
+                        "01 - Behind the Screen\n" +
+                        "02 - Silent Transmission\n" +
+                        "03 - The Hidden Flag"
+                    );
+                    break;
+
+                case "leaderboard":
+                    showLeaderboard();
+                    break;
+
+                case "time":
+                    terminalLog(
+                        "Elapsed: " + formatTime(elapsed())
+                    );
+                    break;
+
+                case "clear":
+                    $("terminalOutput").textContent = "";
+                    break;
+
+                case "about":
+                    terminalLog(
+                        "CyberArena educational training."
+                    );
+                    break;
+
+                default:
+                    terminalLog("Unknown command. Type help.");
+            }
+        };
+
+        // MATRIX BACKGROUND
+
+        const canvas = $("matrix");
+        const ctx = canvas.getContext("2d");
+
+        let drops = [];
+
+        function resizeMatrix() {
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            drops = Array(
+                Math.ceil(canvas.width / 18)
+            ).fill(1);
+        }
+
+        resizeMatrix();
+
+        window.addEventListener("resize", resizeMatrix);
+
+        function drawMatrix() {
+
+            ctx.fillStyle = "rgba(5,11,18,.1)";
+
+            ctx.fillRect(
+                0, 0, canvas.width, canvas.height
+            );
+
+            ctx.fillStyle = "#00ff9d";
+            ctx.font = "16px monospace";
+
+            drops.forEach((drop, i) => {
+
+                ctx.fillText(
+                    Math.random() > .5 ? "1" : "0",
+                    i * 18,
+                    drop * 18
+                );
+
+                if (
+                    drop * 18 > canvas.height &&
+                    Math.random() > .975
+                ) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            });
+        }
+
+        if (!window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches) {
+            setInterval(drawMatrix, 75);
+        }
+
+        // TIMER
+
+        function elapsed() {
+
+            if (!state) return 0;
+
+            const end = state.finishedAt || Date.now();
+
+            return Math.max(
+                0,
+                Math.floor((end - state.startedAt) / 1000)
+            );
+        }
+
+        function formatTime(seconds) {
+
+            seconds = Math.max(
+                0,
+                Math.floor(Number(seconds) || 0)
+            );
+
+            const minutes = Math.floor(seconds / 60);
+            const remaining = seconds % 60;
+
+            return String(minutes).padStart(2, "0")
+                + ":"
+                + String(remaining).padStart(2, "0");
+        }
+
+        setInterval(() => {
+
+            $("timer").textContent =
+                formatTime(elapsed());
+
+        }, 1000);
+
+        // HASH
+
+        async function hashText(value) {
+
+            const bytes = await crypto.subtle.digest(
+                "SHA-256",
+                new TextEncoder().encode(value.trim())
+            );
+
+            return Array.from(
+                new Uint8Array(bytes),
+                b => b.toString(16).padStart(2, "0")
+            ).join("");
+        }
+
+        // SCORE
+
+        function calculateScore() {
+
+            if (!state) return 0;
+
+            return state.solved.reduce(
+                (total, solved, i) =>
+                    total + (solved ? points[i] : 0),
+                0
+            );
+        }
+
+        // DASHBOARD
+
+        function render() {
+
+            if (!state) return;
+
+            $("registration").hidden = true;
+            $("game").hidden = false;
+
+            $("welcome").textContent =
+                "Welcome, Agent " + state.name;
+
+            $("score").textContent = calculateScore();
+
+            const completed =
+                state.solved.filter(Boolean).length;
+
+            $("labCount").textContent =
+                completed + "/3";
+
+            $("progress").value = completed;
+
+            $("mission1").hidden = state.solved[0];
+            $("mission2").hidden = state.solved[1];
+
+            const firstTwoDone =
+                state.solved[0] && state.solved[1];
+
+            $("gate").hidden =
+                !firstTwoDone || finalStarted;
+
+            $("final").hidden =
+                !firstTwoDone ||
+                !finalStarted ||
+                state.solved[2];
+
+            $("complete").hidden =
+                !state.solved.every(Boolean);
+
+            if (state.solved.every(Boolean)) {
+
+                $("finalTime").textContent =
+                    "Completion time: " +
+                    formatTime(elapsed());
+            }
+        }
+
+        // REGISTRATION
+
+        $("regForm").onsubmit = async event => {
+
+            event.preventDefault();
+
+            const name = $("name").value.trim();
+
+            const number =
+                $("participantNumber").value.trim();
+
+            const email =
+                $("email").value.trim();
+
+            const button =
+                event.target.querySelector("button");
+
+            if (!name || !number || !email) return;
+
+            if (!/^[^@]+@example\.(com|org|net|invalid)$/i.test(email)) {
+
+                alert(
+                    "Please use a fictional training email."
+                );
+
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "REGISTERING...";
+
+            try {
+
+                let {
+                    data: { session },
+                    error: sessionError
+                } = await db.auth.getSession();
+
+                if (sessionError) throw sessionError;
+
+                if (!session) {
+
+                    const result =
+                        await db.auth.signInAnonymously();
+
+                    if (result.error) throw result.error;
+
+                    session = result.data.session;
+                }
+
+                const { data, error } = await db
+                    .from("participants")
+                    .insert({
+                        owner_id: session.user.id,
+                        agent_name: name,
+                        participant_number: number,
+                        training_email: email
+                    })
+                    .select("id, created_at")
+                    .single();
+
+                if (error) throw error;
+
+                state = {
+                    id: data.id,
+                    name: name,
+                    solved: [false, false, false],
+                    startedAt:
+                        new Date(data.created_at).getTime(),
+                    finishedAt: null
+                };
+
+                finalStarted = false;
+
+                terminalLog("[ OK ] Agent registered.");
+                terminalLog("[ SAVED ] Training data saved.");
+                terminalLog("[ START ] Timer initialized.");
+
+                render();
+                loadLeaderboard();
+
+            } catch (error) {
+
+                terminalLog("[ ERROR ] " + error.message);
+
+                alert(
+                    "Registration failed: " + error.message
+                );
+
+            } finally {
+
+                button.disabled = false;
+                button.textContent = "INITIALIZE MISSION";
+            }
+        };
+
+        // SAVE AFTER EVERY LAB
+
+        async function saveProgress(nextSolved) {
+
+            const { data, error } = await db
+                .from("participants")
+                .update({
+                    mission1: nextSolved[0],
+                    mission2: nextSolved[1],
+                    mission3: nextSolved[2]
+                })
+                .eq("id", state.id)
+                .select("score, updated_at")
+                .single();
+
+            if (error) throw error;
+
+            return data;
+        }
+
+        // FINAL LAB
+
+        $("startFinal").onclick = () => {
+
+            if (
+                !state ||
+                !state.solved[0] ||
+                !state.solved[1]
+            ) return;
+
+            finalStarted = true;
+
+            terminalLog("[ UNLOCKED ] Final lab.");
+
+            render();
+        };
+
+        // VERIFY FLAGS
+
+        document.querySelectorAll("[data-mission]")
+            .forEach(form => {
+
+                form.onsubmit = async event => {
+
+                    event.preventDefault();
+
+                    if (!state || saving) return;
+
+                    const i = Number(form.dataset.mission);
+
+                    if (state.solved[i]) return;
+
+                    if (
+                        i === 2 &&
+                        (
+                            !finalStarted ||
+                            !state.solved[0] ||
+                            !state.solved[1]
+                        )
+                    ) return;
+
+                    const input = form.querySelector("input");
+                    const button = form.querySelector("button");
+                    const status =
+                        form.querySelector(".mission-status");
+
+                    saving = true;
+                    button.disabled = true;
+
+                    try {
+
+                        const hash = await hashText(input.value);
+
+                        if (hash !== flagHashes[i]) {
+
+                            status.textContent =
+                                "Incorrect flag. Try again.";
+
+                            status.className =
+                                "mission-status error";
+
+                            return;
+                        }
+
+                        const nextSolved = [...state.solved];
+
+                        nextSolved[i] = true;
+
+                        const saved =
+                            await saveProgress(nextSolved);
+
+                        state.solved = nextSolved;
+
+                        if (state.solved.every(Boolean)) {
+
+                            state.finishedAt =
+                                new Date(saved.updated_at).getTime();
+                        }
+
+                        terminalLog(
+                            "[ SUCCESS ] Lab " + (i + 1) +
+                            " completed. +" + points[i] + " points."
+                        );
+
+                        terminalLog(
+                            "[ SAVED ] Score: " +
+                            saved.score + "/600"
+                        );
+
+                        render();
+                        loadLeaderboard();
+
+                    } catch (error) {
+
+                        status.textContent =
+                            "Saving failed. Try again.";
+
+                        status.className =
+                            "mission-status error";
+
+                        terminalLog("[ ERROR ] " + error.message);
+
+                    } finally {
+
+                        saving = false;
+                        button.disabled = state.solved[i];
+                    }
+                };
+            });
+
+        // LEADERBOARD
+
+        function addCell(row, value, className) {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value;
+
+            if (className) cell.className = className;
+
+            row.appendChild(cell);
+        }
+
+        function renderPodium(data) {
+
+            const podium = $("podium");
+
+            podium.replaceChildren();
+
+            const order = [1, 0, 2];
+            const medals = ["🥇", "🥈", "🥉"];
+            const classes = ["first", "second", "third"];
+
+            order.forEach(index => {
+
+                const player = data[index];
+
+                const card = document.createElement("div");
+
+                card.className =
+                    "podium-card " + classes[index];
+
+                const medal = document.createElement("div");
+
+                medal.className = "medal";
+                medal.textContent = medals[index];
+
+                const name = document.createElement("h3");
+
+                name.textContent =
+                    player ? player.agent_name : "---";
+
+                const score = document.createElement("div");
+
+                score.className = "score";
+
+                score.textContent =
+                    player ? player.score : "0";
+
+                const time = document.createElement("p");
+
+                time.textContent = player
+                    ? formatTime(player.elapsed_seconds)
+                    : "--:--";
+
+                card.append(medal, name, score, time);
+
+                podium.appendChild(card);
+            });
+        }
+
+        async function loadLeaderboard() {
+
+            if (rankingLoading) return;
+
+            rankingLoading = true;
+
+            try {
+
+                const { data, error } =
+                    await db.rpc("get_leaderboard");
+
+                if (error) throw error;
+
+                const body = $("rankingBody");
+
+                body.replaceChildren();
+
+                data.forEach((player, index) => {
+
+                    const row = document.createElement("tr");
+
+                    addCell(row, "#" + (index + 1), "rank");
+
+                    addCell(row, player.agent_name);
+
+                    addCell(row, player.labs + "/3");
+
+                    addCell(
+                        row,
+                        player.score + "/600",
+                        "score-cell"
+                    );
+
+                    addCell(
+                        row,
+                        formatTime(player.elapsed_seconds)
+                    );
+
+                    body.appendChild(row);
+                });
+
+                renderPodium(data);
+
+                $("rankingStatus").textContent =
+                    "Updated: " +
+                    new Date().toLocaleTimeString();
+
+            } catch (error) {
+
+                $("rankingStatus").textContent =
+                    "Leaderboard error: " + error.message;
+
+            } finally {
+
+                rankingLoading = false;
+            }
+        }
+
+        // NAVIGATION
+
+        function showLeaderboard() {
+
+            $("mainPage").hidden = true;
+            $("leaderboardPage").hidden = false;
+
+            loadLeaderboard();
+
+            window.scrollTo(0, 0);
+        }
+
+        function showHome() {
+
+            $("mainPage").hidden = false;
+            $("leaderboardPage").hidden = true;
+
+            window.scrollTo(0, 0);
+        }
+
+        $("leaderboardBtn").onclick = showLeaderboard;
+        $("viewRanking").onclick = showLeaderboard;
+        $("finalRanking").onclick = showLeaderboard;
+        $("homeBtn").onclick = showHome;
+        $("backBtn").onclick = showHome;
+        $("refreshRanking").onclick = loadLeaderboard;
+
+        setInterval(() => {
+
+            if (!$("leaderboardPage").hidden) {
+                loadLeaderboard();
+            }
+
+        }, 5000);
+
+    </script>
+
+</body>
+</html>
