@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBER-JJAAR | CTF</title>
+    <title>CYBER-JJAAR | CTF — Save fix v2</title>
 
     <style>
         * {
@@ -1158,22 +1158,16 @@
         // SAVE AFTER EVERY LAB
 
         async function saveProgress(nextSolved) {
-
+            const changed = nextSolved.findIndex((v, i) => v !== state.solved[i]);
+            if (changed < 0) throw new Error("No progress change");
+            const column = "mission" + (changed + 1);
             const { data, error } = await db
                 .from("participants")
-                .update({
-                    mission1: nextSolved[0],
-                    mission2: nextSolved[1],
-                    mission3: nextSolved[2],
-                    mission4: nextSolved[3],
-                    mission5: nextSolved[4]
-                })
+                .update({ [column]: nextSolved[changed] })
                 .eq("id", state.id)
                 .select("score, updated_at")
                 .single();
-
             if (error) throw error;
-
             return data;
         }
 
@@ -1255,7 +1249,7 @@
                     } catch (error) {
 
                         status.textContent =
-                            "Saving failed: " + error.message;
+                            "Saving failed: " + [error.code, error.message, error.details, error.hint].filter(Boolean).join(" | ");
 
                         console.error(error);
 
@@ -1431,4 +1425,3 @@
 </body>
 
 </html>
-
