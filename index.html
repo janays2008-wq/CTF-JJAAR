@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CYBER-JJAAR | CTF</title>
 
     <style>
@@ -52,6 +53,19 @@
             font-weight: bold;
         }
 
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+            nav button {
+                width: auto;
+                margin: 0;
+                background: transparent;
+                color: var(--green);
+                border: 1px solid var(--border);
+            }
+
         main {
             max-width: 1050px;
             margin: auto;
@@ -65,13 +79,14 @@
 
             .hero h1 {
                 color: var(--green);
-                font-size: clamp(30px, 7vw, 65px);
+                font-size: clamp(35px, 7vw, 65px);
                 letter-spacing: 4px;
                 text-shadow: 0 0 30px #00ff9d66;
             }
 
             .hero p {
                 color: var(--blue);
+                letter-spacing: 2px;
             }
 
         .card {
@@ -91,6 +106,11 @@
             margin-top: 20px;
         }
 
+            label::before {
+                content: "> ";
+                color: var(--green);
+            }
+
         input {
             width: 100%;
             padding: 15px;
@@ -105,6 +125,7 @@
 
             input:focus {
                 border-color: var(--green);
+                box-shadow: 0 0 12px #00ff9d44;
             }
 
         button {
@@ -122,21 +143,12 @@
 
             button:hover {
                 background: var(--blue);
+                color: #041019;
             }
 
             button:disabled {
                 opacity: .5;
                 cursor: not-allowed;
-            }
-
-        nav {
-            display: flex;
-            gap: 10px;
-        }
-
-            nav button {
-                width: auto;
-                margin: 0;
             }
 
         .terminal {
@@ -173,7 +185,7 @@
             background: #28c840;
         }
 
-        #terminalOutput, #linuxOutput {
+        #terminalOutput {
             min-height: 140px;
             max-height: 270px;
             overflow-y: auto;
@@ -247,15 +259,23 @@
             color: var(--green);
             margin: 20px 0;
             border-radius: 8px;
-            white-space: pre-wrap;
             overflow-wrap: anywhere;
-            line-height: 1.8;
+        }
+
+        .score {
+            color: var(--green);
+            font-size: 38px;
+            font-weight: bold;
         }
 
         progress {
             width: 100%;
             height: 16px;
             accent-color: var(--green);
+        }
+
+        .center {
+            text-align: center;
         }
 
         .error {
@@ -266,8 +286,41 @@
             color: var(--green);
         }
 
-        .center {
+        .live {
+            color: var(--green);
+            font-size: 12px;
+        }
+
+        .podium {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .podium-card {
+            padding: 25px 10px;
             text-align: center;
+            background: #081521;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .first {
+            border-color: gold;
+        }
+
+        .second {
+            border-color: silver;
+        }
+
+        .third {
+            border-color: #cd956a;
+        }
+
+        .medal {
+            font-size: 35px;
         }
 
         .table-wrap {
@@ -287,6 +340,15 @@
 
         th {
             color: var(--blue);
+        }
+
+        .rank {
+            color: gold;
+        }
+
+        .score-cell {
+            color: var(--green);
+            font-weight: bold;
         }
 
         footer {
@@ -324,14 +386,14 @@
     <canvas id="matrix"></canvas>
 
     <header>
-        <div class="brand">CYS - CTF</div>
+        <div class="brand">CYS - CTF </div>
 
         <nav>
             <button id="homeBtn">MISSIONS</button>
             <button id="leaderboardBtn">LEADERBOARD</button>
         </nav>
 
-        <span class="success">● TRAINING SYSTEM</span>
+        <span class="live">● TRAINING SYSTEM</span>
     </header>
 
     <main>
@@ -361,6 +423,8 @@
                 </div>
             </div>
 
+            <!-- TERMINAL -->
+
             <section class="terminal">
 
                 <div class="terminal-header">
@@ -373,7 +437,7 @@
                 <div id="terminalOutput"></div>
 
                 <form id="terminalForm" class="command-line">
-                    <span>agent@arena:~$</span>
+                    <span>player@linux:~$</span>
 
                     <input id="command"
                            placeholder="Type help"
@@ -384,46 +448,57 @@
 
             </section>
 
+            <!-- REGISTRATION -->
+
             <section class="card" id="registration">
 
-                <h2>01 // AGENT REGISTRATION</h2>
+                <h2>01 // PLAYER REGISTRATION</h2>
 
                 <form id="regForm">
 
-                    <label>Agent Name</label>
+                    <label for="name">Player Name</label>
+
                     <input id="name"
+                           type="text"
                            placeholder="Choose your nickname"
                            maxlength="40"
                            required>
 
-                    <label>Participant Number</label>
+                    <label for="participantNumber">
+                        Participant Number
+                    </label>
+
                     <input id="participantNumber"
-                           placeholder="Choose your training ID"
+                           type="text"
+                           placeholder="Choose your game ID"
                            maxlength="30"
                            required>
 
-                    <label>Training Email</label>
+                    <label for="email">Training Email</label>
+
                     <input id="email"
                            type="email"
-                           placeholder="agent@example.com"
+                           placeholder="Choose your training email"
                            maxlength="120"
+                           autocomplete="off"
                            required>
 
                     <div class="notice">
-                        Use fictional training information only.
-                        Use an example.com, example.org,
-                        example.net or example.invalid email.
+                        Choose your own fictional training details.
+                        Use a training email ending in
+                        @example.com, @example.org,
+                        @example.net or @example.invalid.
                     </div>
 
-                    <p id="registrationStatus"></p>
-
-                    <button type="submit" id="registerBtn">
+                    <button type="submit">
                         INITIALIZE MISSION
                     </button>
 
                 </form>
 
             </section>
+
+            <!-- DASHBOARD -->
 
             <div id="game" hidden>
 
@@ -455,11 +530,12 @@
                     <progress id="progress" max="5" value="0">
                     </progress>
 
-                    <button id="viewRanking">VIEW LEADERBOARD</button>
+                    <button id="viewRanking">
+                        VIEW LEADERBOARD
+                    </button>
 
                 </section>
 
-                <!-- LAB 1 -->
 
                 <section class="card" id="mission1">
 
@@ -469,22 +545,24 @@
 
                     <h2>Behind the Screen</h2>
 
-                    <p>Which HTML element defines the page title?</p>
+                    <p>
+                        Inspect this training page's HTML source
+                        and discover the first flag.
+                    </p>
 
-                    <div class="code-box">
-                        &lt;head&gt;
-                        &lt;title&gt;Cyber Arena&lt;/title&gt;
-                        &lt;/head&gt;
-                    </div>
+                    <!-- CTF{source_detective} -->
 
                     <form data-mission="0">
 
-                        <label>Enter the element name</label>
+                        <label>Flag 01</label>
 
-                        <input required placeholder="Your answer"
+                        <input required
+                               placeholder="CTF{...}"
                                autocomplete="off">
 
-                        <button type="submit">SUBMIT ANSWER</button>
+                        <button type="submit">
+                            SUBMIT FLAG
+                        </button>
 
                         <p class="mission-status"></p>
 
@@ -492,7 +570,7 @@
 
                 </section>
 
-                <!-- LAB 2 -->
+
 
                 <section class="card" id="mission2">
 
@@ -504,7 +582,9 @@
 
                     <p>Decode the training message.</p>
 
-                    <div class="code-box">Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==</div>
+                    <div class="code-box">
+                        Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==
+                    </div>
 
                     <div class="notice">
                         HINT: Base64 decoding.
@@ -514,10 +594,13 @@
 
                         <label>Flag 02</label>
 
-                        <input required placeholder="CTF{...}"
+                        <input required
+                               placeholder="CTF{...}"
                                autocomplete="off">
 
-                        <button type="submit">SUBMIT FLAG</button>
+                        <button type="submit">
+                            SUBMIT FLAG
+                        </button>
 
                         <p class="mission-status"></p>
 
@@ -525,163 +608,87 @@
 
                 </section>
 
-                <!-- LAB 3: ISOLATED TRAINING RECORDS -->
-
                 <section class="card" id="mission3" hidden>
+                    <span class="mission-number">LAB 03 // MEDIUM // 200 POINTS</span><h2>Lost in Linux</h2>
+                    <p>Explore the simulated directory and find the hidden training file.</p>
+                    <div class="terminal">
+                        <div class="terminal-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>Linux training simulator</div>
+<pre class="code-box" id="linuxOutput" style="white-space:pre-wrap;max-height:270px;overflow:auto">Linux simulator ready. Type help.</pre>
+                        <div class="command-line"><span>student:~$</span><input id="linuxCommand" autocomplete="off" placeholder="Enter command"><button type="button" id="linuxRun">RUN</button></div>
+                    </div>
+                    <div class="notice">HINT: Some files are not visible by default.</div>
+                    <form data-mission="2"><label>Enter the flag</label><input required placeholder="CTF{...}"><button>SUBMIT FLAG</button><p class="mission-status"></p></form>
+                </section>
+                <section class="card" id="mission4" hidden>
+                    <span class="mission-number">LAB 04 // HARD // 300 POINTS</span><h2>Digital Investigation</h2><p>Identify the locked account and exact alert time.</p><pre class="code-box" style="white-space:pre-wrap">08:00:01 | INFO | System started
+08:05:12 | INFO | Backup completed
+08:10:22 | WARNING | Agent A login failed
+08:11:30 | WARNING | Agent B login failed
+08:12:45 | ALERT | Agent B account locked
+08:20:10 | INFO | Review completed</pre><div class="notice">Answer format: ACCOUNT-TIME Example: A-09:00:00</div><form data-mission="3"><label>Enter the investigation result</label><input required placeholder="A-00:00:00"><button>SUBMIT EVIDENCE</button><p class="mission-status"></p></form>
+                </section>
+
+                <!-- FINAL GATE -->
+
+                <section class="card center" id="gate" hidden>
+
+                    <h2>ACCESS GRANTED</h2>
+
+                    <div class="score">800 / 1100</div>
+
+                    <p>First four labs completed.</p>
+
+                    <button id="startFinal">
+                        UNLOCK FINAL LAB
+                    </button>
+
+                </section>
+
+                <!-- LAB 3 -->
+
+                <section class="card" id="final" hidden>
 
                     <span class="mission-number">
-                        LAB 03 // MEDIUM // 300 POINTS
+                        LAB 05 // FINAL // 300 POINTS
                     </span>
 
                     <h2>The Hidden Flag</h2>
 
-                    <p>
-                        Analyze the fictional training records.
-                        Identify the evidence reference assigned to Rahaf.
-                    </p>
+                    <p>Review the fictional training record.</p>
 
                     <div class="code-box">
-                        TRAINING RECORDS
-
-                        Agent: Sara
-                        Evidence: TR-102
-
-                        Agent: Rahaf
-                        Evidence: TR-307
-
-                        Agent: Noor
-                        Evidence: TR-415
-                    </div>
-
-                    <form data-mission="2">
-
-                        <label>Evidence Reference</label>
-
-                        <input required placeholder="TR-..."
-                               autocomplete="off">
-
-                        <button type="submit">VERIFY ANSWER</button>
-
-                        <p class="mission-status"></p>
-
-                    </form>
-
-                </section>
-
-                <!-- LAB 4 -->
-
-                <section class="card" id="mission4">
-
-                    <span class="mission-number">
-                        LAB 04 // MEDIUM // 200 POINTS
-                    </span>
-
-                    <h2>Lost in Linux</h2>
-
-                    <p>
-                        Find the command that displays
-                        the current working directory.
-                    </p>
-
-                    <section class="terminal">
-
-                        <div class="terminal-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <small>Linux training simulator</small>
-                        </div>
-
-                        <div id="linuxOutput">
-                            Linux simulator ready.
-                            Type help to view available commands.
-                        </div>
-
-                        <form id="linuxForm" class="command-line">
-
-                            <span>student:~$</span>
-
-                            <input id="linuxCommand"
-                                   placeholder="Enter command"
-                                   autocomplete="off">
-
-                            <button type="submit">RUN</button>
-
-                        </form>
-
-                    </section>
-
-                    <div class="notice">
-                        HINT: Print Working Directory.
-                    </div>
-
-                    <form data-mission="3">
-
-                        <label>Enter the correct Linux command</label>
-
-                        <input required placeholder="Linux command"
-                               autocomplete="off">
-
-                        <button type="submit">SUBMIT ANSWER</button>
-
-                        <p class="mission-status"></p>
-
-                    </form>
-
-                </section>
-
-                <!-- LAB 5 -->
-
-                <section class="card" id="mission5">
-
-                    <span class="mission-number">
-                        LAB 05 // HARD // 300 POINTS
-                    </span>
-
-                    <h2>Digital Investigation</h2>
-
-                    <p>
-                        Review the fictional security logs.
-                        Identify the locked account and the exact
-                        time of the alert.
-                    </p>
-
-                    <div class="code-box">
-                        08:00:01 | INFO | System started
-                        08:05:12 | INFO | Backup completed
-                        08:10:22 | WARNING | Agent A login failed
-                        08:11:30 | WARNING | Agent B login failed
-                        08:12:45 | ALERT | Agent B account locked
-                        08:20:10 | INFO | Review completed
-                    </div>
-
-                    <div class="notice">
-                        Answer format: ACCOUNT-TIME
-                        Example: A-09:00:00
+                        Inspect the fictional training record below. <br><br>
+                        Find the training agent named rahaf. <br><br>
+                        Her challenge_flag is the answer. <br><br> Agent: rahaf | challenge_flag: GG{training_record}
                     </div>
 
                     <form data-mission="4">
 
-                        <label>Enter the investigation result</label>
+                        <label>Final Flag</label>
 
-                        <input required placeholder="A-00:00:00"
+                        <input required
+                               placeholder="GG{...}"
                                autocomplete="off">
 
-                        <button type="submit">SUBMIT EVIDENCE</button>
+                        <button type="submit">
+                            VERIFY FLAG
+                        </button>
 
                         <p class="mission-status"></p>
 
                     </form>
 
                 </section>
+
+                <!-- COMPLETED -->
 
                 <section class="card center" id="complete" hidden>
 
                     <h1 class="success">MISSION COMPLETE!</h1>
 
-                    <h2>1100 / 1100</h2>
+                    <div class="score">1100 / 1100</div>
 
-                    <p>Congratulations, Agent!</p>
+                    <h2>Congratulations, Agent!</h2>
 
                     <p id="finalTime"></p>
 
@@ -689,35 +696,36 @@
                         Your final score has been saved.
                     </div>
 
-                    <button id="finalRanking">VIEW FINAL RANKING</button>
+                    <button id="finalRanking">
+                        VIEW FINAL RANKING
+                    </button>
 
                 </section>
 
             </div>
+
         </div>
+
+        <!-- LEADERBOARD -->
 
         <section id="leaderboardPage" hidden>
 
             <div class="card">
 
                 <div class="center">
-
-                    <h1>🏆</h1>
-
+                    <div style="font-size:45px">🏆</div>
                     <h2>LIVE LEADERBOARD</h2>
-
                     <p>TOP CYBER AGENTS</p>
-
-                    <p class="success">
-                        AUTO REFRESH EVERY 5 SECONDS
+                    <p class="live">
+                        ● AUTO REFRESH EVERY 5 SECONDS
                     </p>
-
                 </div>
+
+                <div id="podium" class="podium"></div>
 
                 <div class="table-wrap">
 
                     <table>
-
                         <thead>
                             <tr>
                                 <th>RANK</th>
@@ -729,7 +737,6 @@
                         </thead>
 
                         <tbody id="rankingBody"></tbody>
-
                     </table>
 
                 </div>
@@ -750,15 +757,15 @@
 
     </main>
 
-    <footer>CYBERSECURITY TRAINING</footer>
+    <footer>
+        CYBERSECURITY TRAINING
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
 
-        "use strict";
-
-        const $ = id => document.getElementById(id);
+        // SUPABASE
 
         const SUPABASE_URL =
             "https://oeqhoypopwnjmgrtfcuh.supabase.co";
@@ -766,15 +773,21 @@
         const SUPABASE_KEY =
             "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
 
-        const POINTS = [100, 200, 300, 200, 300];
+        const db = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
-        const TOTAL_POINTS = 1100;
+        const $ = id => document.getElementById(id);
 
-        let db = null;
+        const points = [100, 200, 200, 300, 300];
+
         let state = null;
+        let finalStarted = false;
         let saving = false;
         let rankingLoading = false;
-        let connectionError = "";
+
+        const flagHashes = ["cc3351d777e28a673546a5108749441474145b87b3d7ed8ff2d5557b62a709e7", "389e395c7f639035d72fdb59d44a87378d7d52564324c160404424dcfd8e853c", "da4bca012a1b53ed0e0aeaf80c97bfe0de24749d3f62559e07c6280fd94fba9e", "f9c8d62a2394db1b5b950768631821947f6ca964ed4363e4bffcf364cd429b5b", "853fbc3d4df9e96f7fecd66185955ad569a5f11acb74232ae56a87b463cd70f1"];
 
         // TERMINAL
 
@@ -785,20 +798,19 @@
             output.textContent += message + "\n";
 
             output.scrollTop = output.scrollHeight;
-
         }
 
-        terminalLog("[ BUILD ] CYBER-JJAAR-V5");
-        terminalLog("[ OK ] Terminal initialized.");
-        terminalLog("[ OK ] Five training modules loaded.");
-        terminalLog("Type help for commands.");
+        terminalLog("[ OK ] CyberArena initialized.");
+        terminalLog("[ OK ] Training modules loaded.");
+        terminalLog("[ READY ] Awaiting registration.");
+        terminalLog("Type 'help' for commands.");
 
-        $("terminalForm").addEventListener("submit", event => {
+        $("terminalForm").onsubmit = event => {
 
             event.preventDefault();
 
-            const command = $("command")
-                .value.trim().toLowerCase();
+            const command =
+                $("command").value.trim().toLowerCase();
 
             $("command").value = "";
 
@@ -809,7 +821,6 @@
             switch (command) {
 
                 case "help":
-
                     terminalLog(
                         "help - Show commands\n" +
                         "status - Current score\n" +
@@ -819,151 +830,121 @@
                         "clear - Clear terminal\n" +
                         "about - About platform"
                     );
-
                     break;
 
                 case "status":
-
                     terminalLog(
                         "Score: " + calculateScore() + "/1100"
                     );
-
                     break;
 
                 case "missions":
-
                     terminalLog(
                         "01 - Behind the Screen\n" +
                         "02 - Silent Transmission\n" +
-                        "03 - The Hidden Flag\n" +
-                        "04 - Lost in Linux\n" +
-                        "05 - Digital Investigation"
+                        "03 - Lost in Linux\n04 - Digital Investigation\n05 - The Hidden Flag"
                     );
-
                     break;
 
                 case "leaderboard":
-
                     showLeaderboard();
                     break;
 
                 case "time":
-
-                    terminalLog(formatTime(elapsed()));
+                    terminalLog(
+                        "Elapsed: " + formatTime(elapsed())
+                    );
                     break;
 
                 case "clear":
-
                     $("terminalOutput").textContent = "";
                     break;
 
                 case "about":
-
-                    terminalLog("CYBER-JJAAR educational platform.");
+                    terminalLog(
+                        "CyberArena educational training."
+                    );
                     break;
 
                 default:
-
                     terminalLog("Unknown command. Type help.");
-
             }
+        };
 
-        });
+        function runLinuxCommand() {
+            const input = $("linuxCommand"), output = $("linuxOutput");
+            const cmd = input.value.trim(); input.value = "";
+            if (!cmd) return;
+            const files = { "notes.txt": "Training notes", "readme.txt": "Explore the directory", "report.txt": "Training report", ".secret.txt": atob("Q1RGe2hpZGRlbl9saW51eF9maWxlfQ==") };
+            let result;
+            if (cmd === "ls") result = Object.keys(files).filter(x => !x.startsWith(".")).join("  ");
+            else if (cmd === "ls -a" || cmd === "ls-a") result = ".  ..  " + Object.keys(files).join("  ");
+            else if (cmd === "pwd") result = "/home/student";
+            else if (cmd === "help") result = "help, ls, pwd, cat, clear";
+            else if (cmd === "clear") { output.textContent = ""; return; }
+            else if (cmd.startsWith("cat ")) { const name = cmd.slice(4).trim(); result = Object.hasOwn(files, name) ? files[name] : "File not found."; }
+            else result = "Command not found.";
+            output.textContent += "\nstudent:~$ " + cmd + "\n" + result + "\n"; output.scrollTop = output.scrollHeight;
+        }
+        $("linuxRun").onclick = runLinuxCommand;
+        $("linuxCommand").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); runLinuxCommand(); } });
 
-        // DATABASE CONNECTION
+        // MATRIX BACKGROUND
 
-        function connectDatabase() {
+        const canvas = $("matrix");
+        const ctx = canvas.getContext("2d");
 
-            try {
+        let drops = [];
 
-                if (!window.supabase) {
+        function resizeMatrix() {
 
-                    throw new Error(
-                        "Supabase library could not load."
-                    );
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-                }
+            drops = Array(
+                Math.ceil(canvas.width / 18)
+            ).fill(1);
+        }
 
-                const url = new URL(SUPABASE_URL.trim());
+        resizeMatrix();
 
-                db = window.supabase.createClient(
-                    url.origin,
-                    SUPABASE_KEY.trim()
+        window.addEventListener("resize", resizeMatrix);
+
+        function drawMatrix() {
+
+            ctx.fillStyle = "rgba(5,11,18,.1)";
+
+            ctx.fillRect(
+                0, 0, canvas.width, canvas.height
+            );
+
+            ctx.fillStyle = "#00ff9d";
+            ctx.font = "16px monospace";
+
+            drops.forEach((drop, i) => {
+
+                ctx.fillText(
+                    Math.random() > .5 ? "1" : "0",
+                    i * 18,
+                    drop * 18
                 );
 
-                terminalLog("[ OK ] Database client initialized.");
+                if (
+                    drop * 18 > canvas.height &&
+                    Math.random() > .975
+                ) {
+                    drops[i] = 0;
+                }
 
-            } catch (error) {
-
-                db = null;
-
-                connectionError = error.message;
-
-                terminalLog("[ ERROR ] " + connectionError);
-
-            }
-
+                drops[i]++;
+            });
         }
 
-        // LINUX TERMINAL
-
-        function linuxLog(message) {
-
-            const output = $("linuxOutput");
-
-            output.textContent += message + "\n";
-
-            output.scrollTop = output.scrollHeight;
-
+        if (!window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches) {
+            setInterval(drawMatrix, 75);
         }
-
-        $("linuxForm").addEventListener("submit", event => {
-
-            event.preventDefault();
-
-            const command = $("linuxCommand")
-                .value.trim().toLowerCase();
-
-            $("linuxCommand").value = "";
-
-            if (!command) return;
-
-            linuxLog("student:~$ " + command);
-
-            switch (command) {
-
-                case "help":
-
-                    linuxLog("help, ls, pwd, date, clear");
-                    break;
-
-                case "ls":
-
-                    linuxLog("notes.txt documents practice");
-                    break;
-
-                case "pwd":
-
-                    linuxLog("/home/student");
-                    break;
-
-                case "date":
-
-                    linuxLog(new Date().toLocaleString());
-                    break;
-
-                case "clear":
-
-                    $("linuxOutput").textContent = "";
-                    break;
-
-                default:
-
-                    linuxLog("Command unavailable in simulator.");
-
-            }
-
-        });
 
         // TIMER
 
@@ -977,7 +958,6 @@
                 0,
                 Math.floor((end - state.startedAt) / 1000)
             );
-
         }
 
         function formatTime(seconds) {
@@ -988,20 +968,34 @@
             );
 
             const minutes = Math.floor(seconds / 60);
-
             const remaining = seconds % 60;
 
-            return String(minutes).padStart(2, "0") +
-                ":" +
-                String(remaining).padStart(2, "0");
-
+            return String(minutes).padStart(2, "0")
+                + ":"
+                + String(remaining).padStart(2, "0");
         }
 
         setInterval(() => {
 
-            $("timer").textContent = formatTime(elapsed());
+            $("timer").textContent =
+                formatTime(elapsed());
 
         }, 1000);
+
+        // HASH
+
+        async function hashText(value) {
+
+            const bytes = await crypto.subtle.digest(
+                "SHA-256",
+                new TextEncoder().encode(value.trim())
+            );
+
+            return Array.from(
+                new Uint8Array(bytes),
+                b => b.toString(16).padStart(2, "0")
+            ).join("");
+        }
 
         // SCORE
 
@@ -1010,11 +1004,10 @@
             if (!state) return 0;
 
             return state.solved.reduce(
-                (total, solved, index) =>
-                    total + (solved ? POINTS[index] : 0),
+                (total, solved, i) =>
+                    total + (solved ? points[i] : 0),
                 0
             );
-
         }
 
         // DASHBOARD
@@ -1024,7 +1017,6 @@
             if (!state) return;
 
             $("registration").hidden = true;
-
             $("game").hidden = false;
 
             $("welcome").textContent =
@@ -1032,22 +1024,29 @@
 
             $("score").textContent = calculateScore();
 
-            const completed = state.solved.filter(Boolean).length;
+            const completed =
+                state.solved.filter(Boolean).length;
 
-            $("labCount").textContent = completed + "/5";
+            $("labCount").textContent =
+                completed + "/5";
 
             $("progress").value = completed;
 
-            for (let i = 0; i < 5; i++) {
+            $("mission1").hidden = state.solved[0];
+            $("mission2").hidden = !state.solved[0] || state.solved[1];
+            $("mission3").hidden = !state.solved[1] || state.solved[2];
+            $("mission4").hidden = !state.solved[2] || state.solved[3];
 
-                $("mission" + (i + 1)).hidden = state.solved[i];
+            const firstTwoDone =
+                state.solved.slice(0, 4).every(Boolean);
 
-            }
+            $("gate").hidden =
+                !firstTwoDone || finalStarted;
 
-            $("mission3").hidden =
-                !state.solved[0] ||
-                !state.solved[1] ||
-                state.solved[2];
+            $("final").hidden =
+                !firstTwoDone ||
+                !finalStarted ||
+                state.solved[4];
 
             $("complete").hidden =
                 !state.solved.every(Boolean);
@@ -1055,91 +1054,62 @@
             if (state.solved.every(Boolean)) {
 
                 $("finalTime").textContent =
-                    "Completion time: " + formatTime(elapsed());
-
+                    "Completion time: " +
+                    formatTime(elapsed());
             }
-
-        }
-
-        // AUTHENTICATION
-
-        async function getSession() {
-
-            if (!db) {
-
-                throw new Error(
-                    connectionError || "Database unavailable."
-                );
-
-            }
-
-            const result = await db.auth.getSession();
-
-            if (result.error) throw result.error;
-
-            if (result.data.session) {
-
-                return result.data.session;
-
-            }
-
-            const login = await db.auth.signInAnonymously();
-
-            if (login.error) throw login.error;
-
-            if (!login.data.session) {
-
-                throw new Error("Could not create training session.");
-
-            }
-
-            return login.data.session;
-
         }
 
         // REGISTRATION
 
-        $("regForm").addEventListener("submit", async event => {
+        $("regForm").onsubmit = async event => {
 
             event.preventDefault();
 
             const name = $("name").value.trim();
 
-            const number = $("participantNumber").value.trim();
+            const number =
+                $("participantNumber").value.trim();
 
-            const email = $("email").value.trim();
+            const email =
+                $("email").value.trim();
 
-            const button = $("registerBtn");
+            const button =
+                event.target.querySelector("button");
 
-            const status = $("registrationStatus");
+            if (!name || !number || !email) return;
 
-            status.textContent = "";
+            if (!/^[^@]+@example\.(com|org|net|invalid)$/i.test(email)) {
 
-            if (!name || !number || !email) {
+                alert(
+                    "Please use a fictional training email."
+                );
 
-                status.textContent = "Complete all fields.";
-                status.className = "error";
                 return;
-
-            }
-
-            if (!/^[^@\s]+@example\.(com|org|net|invalid)$/i.test(email)) {
-
-                status.textContent = "Use a fictional training email.";
-                status.className = "error";
-                return;
-
             }
 
             button.disabled = true;
-
             button.textContent = "REGISTERING...";
 
             try {
 
-                const session = await getSession();
+                let {
+                    data: { session },
+                    error: sessionError
+                } = await db.auth.getSession();
 
-                const result = await db
+                if (sessionError) throw sessionError;
+
+                if (!session) {
+
+                    const result =
+                        await db.auth.signInAnonymously();
+
+                    if (result.error) throw result.error;
+
+                    session = result.data.session;
+                }
+
+                const { data, error } = await db
                     .from("participants")
                     .insert({
                         owner_id: session.user.id,
@@ -1150,237 +1120,215 @@
                     .select("id, created_at")
                     .single();
 
-                if (result.error) throw result.error;
+                if (error) throw error;
 
                 state = {
-
-                    id: result.data.id,
-
+                    id: data.id,
                     name: name,
-
-                    solved: [
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                    ],
-
+                    solved: [false, false, false, false, false],
                     startedAt:
-                        new Date(result.data.created_at).getTime()
-                        || Date.now(),
-
+                        new Date(data.created_at).getTime(),
                     finishedAt: null
-
                 };
 
+                finalStarted = false;
+
                 terminalLog("[ OK ] Agent registered.");
-
-                terminalLog("[ START ] Mission initialized.");
-
-                status.textContent = "Registration successful.";
-
-                status.className = "success";
+                terminalLog("[ SAVED ] Training data saved.");
+                terminalLog("[ START ] Timer initialized.");
 
                 render();
-
                 loadLeaderboard();
 
             } catch (error) {
 
-                status.textContent =
-                    "Registration failed: " + error.message;
-
-                status.className = "error";
-
                 terminalLog("[ ERROR ] " + error.message);
 
-                console.error(error);
+                alert(
+                    "Registration failed: " + error.message
+                );
 
             } finally {
 
                 button.disabled = false;
-
                 button.textContent = "INITIALIZE MISSION";
-
             }
+        };
 
-        });
-
-        // ANSWER VALIDATION
-
-        function checkAnswer(index, answer) {
-
-            const value = answer.trim();
-
-            switch (index) {
-
-                case 0:
-
-                    return value.toLowerCase() === "title";
-
-                case 1:
-
-                    return value ===
-                        atob("Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==");
-
-                case 2:
-
-                    return value.toUpperCase() === "TR-307";
-
-                case 3:
-
-                    return value.toLowerCase() === "pwd";
-
-                case 4:
-
-                    return value.toUpperCase() === "B-08:12:45";
-
-                default:
-
-                    return false;
-
-            }
-
-        }
-
-        // SAVE PROGRESS
+        // SAVE AFTER EVERY LAB
 
         async function saveProgress(nextSolved) {
 
-            const result = await db
+            const { data, error } = await db
                 .from("participants")
                 .update({
-
                     mission1: nextSolved[0],
                     mission2: nextSolved[1],
                     mission3: nextSolved[2],
                     mission4: nextSolved[3],
                     mission5: nextSolved[4]
-
                 })
                 .eq("id", state.id)
                 .select("score, updated_at")
                 .single();
 
-            if (result.error) throw result.error;
+            if (error) throw error;
 
-            return result.data;
-
+            return data;
         }
 
-        // MISSION SUBMISSION
+        // FINAL LAB
+
+        $("startFinal").onclick = () => {
+            if (!state || !state.solved.slice(0, 4).every(Boolean)) return;
+            finalStarted = true; render();
+        };
+
+        // VERIFY FLAGS
 
         document.querySelectorAll("[data-mission]")
             .forEach(form => {
 
-                form.addEventListener("submit", async event => {
+                form.onsubmit = async event => {
 
                     event.preventDefault();
 
                     if (!state || saving) return;
 
-                    const index = Number(form.dataset.mission);
+                    const i = Number(form.dataset.mission);
 
-                    if (state.solved[index]) return;
+                    if (state.solved[i]) return;
 
-                    if (
-                        index === 2 &&
-                        (!state.solved[0] || !state.solved[1])
-                    ) return;
+                    if (!state.solved.slice(0, i).every(Boolean) || (i === 4 && !finalStarted)) return;
 
                     const input = form.querySelector("input");
-
                     const button = form.querySelector("button");
-
                     const status =
                         form.querySelector(".mission-status");
 
-                    if (!checkAnswer(index, input.value)) {
-
-                        status.textContent =
-                            "Incorrect answer. Try again.";
-
-                        status.className = "mission-status error";
-
-                        return;
-
-                    }
-
                     saving = true;
-
                     button.disabled = true;
 
                     try {
 
+                        const hash = await hashText(input.value);
+
+                        if (hash !== flagHashes[i]) {
+
+                            status.textContent =
+                                "Incorrect flag. Try again.";
+
+                            status.className =
+                                "mission-status error";
+
+                            return;
+                        }
+
                         const nextSolved = [...state.solved];
 
-                        nextSolved[index] = true;
+                        nextSolved[i] = true;
 
-                        const saved = await saveProgress(nextSolved);
+                        const saved =
+                            await saveProgress(nextSolved);
 
                         state.solved = nextSolved;
 
                         if (state.solved.every(Boolean)) {
 
-                            state.finishedAt = Date.now();
-
+                            state.finishedAt =
+                                new Date(saved.updated_at).getTime();
                         }
 
-                        status.textContent = "Correct answer!";
-
-                        status.className = "mission-status success";
-
                         terminalLog(
-                            "[ SUCCESS ] Lab " +
-                            (index + 1) +
-                            " completed. +" +
-                            POINTS[index] +
-                            " points."
+                            "[ SUCCESS ] Lab " + (i + 1) +
+                            " completed. +" + points[i] + " points."
                         );
 
                         terminalLog(
-                            "[ SAVED ] Database score: " +
+                            "[ SAVED ] Score: " +
                             saved.score + "/1100"
                         );
 
                         render();
-
                         loadLeaderboard();
 
                     } catch (error) {
 
                         status.textContent =
-                            "Saving failed: " + error.message;
+                            "Saving failed. Try again.";
 
-                        status.className = "mission-status error";
+                        status.className =
+                            "mission-status error";
 
                         terminalLog("[ ERROR ] " + error.message);
-
-                        console.error(error);
 
                     } finally {
 
                         saving = false;
-
-                        button.disabled = state.solved[index];
-
+                        button.disabled = state.solved[i];
                     }
-
-                });
-
+                };
             });
 
         // LEADERBOARD
 
-        function addCell(row, value) {
+        function addCell(row, value, className) {
 
             const cell = document.createElement("td");
 
             cell.textContent = value;
 
-            row.appendChild(cell);
+            if (className) cell.className = className;
 
+            row.appendChild(cell);
+        }
+
+        function renderPodium(data) {
+
+            const podium = $("podium");
+
+            podium.replaceChildren();
+
+            const order = [1, 0, 2];
+            const medals = ["🥇", "🥈", "🥉"];
+            const classes = ["first", "second", "third"];
+
+            order.forEach(index => {
+
+                const player = data[index];
+
+                const card = document.createElement("div");
+
+                card.className =
+                    "podium-card " + classes[index];
+
+                const medal = document.createElement("div");
+
+                medal.className = "medal";
+                medal.textContent = medals[index];
+
+                const name = document.createElement("h3");
+
+                name.textContent =
+                    player ? player.agent_name : "---";
+
+                const score = document.createElement("div");
+
+                score.className = "score";
+
+                score.textContent =
+                    player ? player.score : "0";
+
+                const time = document.createElement("p");
+
+                time.textContent = player
+                    ? formatTime(player.elapsed_seconds)
+                    : "--:--";
+
+                card.append(medal, name, score, time);
+
+                podium.appendChild(card);
+            });
         }
 
         async function loadLeaderboard() {
@@ -1391,40 +1339,30 @@
 
             try {
 
-                if (!db) {
+                const { data, error } =
+                    await db.rpc("get_leaderboard");
 
-                    throw new Error(
-                        connectionError || "Database unavailable."
-                    );
-
-                }
-
-                const result = await db.rpc("get_leaderboard");
-
-                if (result.error) throw result.error;
-
-                const players = result.data || [];
+                if (error) throw error;
 
                 const body = $("rankingBody");
 
                 body.replaceChildren();
 
-                players.forEach((player, index) => {
+                data.forEach((player, index) => {
 
                     const row = document.createElement("tr");
 
-                    const rank = index === 0 ? "🥇 1" :
-                        index === 1 ? "🥈 2" :
-                            index === 2 ? "🥉 3" :
-                                "#" + (index + 1);
-
-                    addCell(row, rank);
+                    addCell(row, "#" + (index + 1), "rank");
 
                     addCell(row, player.agent_name);
 
                     addCell(row, player.labs + "/5");
 
-                    addCell(row, player.score + "/1100");
+                    addCell(
+                        row,
+                        player.score + "/1100",
+                        "score-cell"
+                    );
 
                     addCell(
                         row,
@@ -1432,29 +1370,23 @@
                     );
 
                     body.appendChild(row);
-
                 });
 
-                $("rankingStatus").textContent =
-                    "Updated: " + new Date().toLocaleTimeString();
+                renderPodium(data);
 
-                $("rankingStatus").className = "success";
+                $("rankingStatus").textContent =
+                    "Updated: " +
+                    new Date().toLocaleTimeString();
 
             } catch (error) {
 
                 $("rankingStatus").textContent =
                     "Leaderboard error: " + error.message;
 
-                $("rankingStatus").className = "error";
-
-                console.error(error);
-
             } finally {
 
                 rankingLoading = false;
-
             }
-
         }
 
         // NAVIGATION
@@ -1462,135 +1394,39 @@
         function showLeaderboard() {
 
             $("mainPage").hidden = true;
-
             $("leaderboardPage").hidden = false;
 
             loadLeaderboard();
 
             window.scrollTo(0, 0);
-
         }
 
         function showHome() {
 
             $("mainPage").hidden = false;
-
             $("leaderboardPage").hidden = true;
 
             window.scrollTo(0, 0);
-
         }
 
         $("leaderboardBtn").onclick = showLeaderboard;
-
         $("viewRanking").onclick = showLeaderboard;
-
         $("finalRanking").onclick = showLeaderboard;
-
         $("homeBtn").onclick = showHome;
-
         $("backBtn").onclick = showHome;
-
         $("refreshRanking").onclick = loadLeaderboard;
 
         setInterval(() => {
 
             if (!$("leaderboardPage").hidden) {
-
                 loadLeaderboard();
-
             }
 
         }, 5000);
 
-        // MATRIX BACKGROUND
-
-        function startMatrix() {
-
-            const canvas = $("matrix");
-
-            const ctx = canvas.getContext("2d");
-
-            if (!ctx) return;
-
-            let drops = [];
-
-            function resize() {
-
-                canvas.width = window.innerWidth;
-
-                canvas.height = window.innerHeight;
-
-                drops = Array(
-                    Math.ceil(canvas.width / 18)
-                ).fill(1);
-
-            }
-
-            resize();
-
-            window.addEventListener("resize", resize);
-
-            if (
-                window.matchMedia(
-                    "(prefers-reduced-motion: reduce)"
-                ).matches
-            ) return;
-
-            setInterval(() => {
-
-                ctx.fillStyle = "rgba(5,11,18,.1)";
-
-                ctx.fillRect(
-                    0, 0, canvas.width, canvas.height
-                );
-
-                ctx.fillStyle = "#00ff9d";
-
-                ctx.font = "16px monospace";
-
-                drops.forEach((drop, index) => {
-
-                    ctx.fillText(
-                        Math.random() > .5 ? "1" : "0",
-                        index * 18,
-                        drop * 18
-                    );
-
-                    if (
-                        drop * 18 > canvas.height &&
-                        Math.random() > .975
-                    ) {
-
-                        drops[index] = 0;
-
-                    }
-
-                    drops[index]++;
-
-                });
-
-            }, 75);
-
-        }
-
-        // INITIALIZATION
-
-        connectDatabase();
-
-        try {
-
-            startMatrix();
-
-        } catch (error) {
-
-            console.warn("Background animation unavailable.");
-
-        }
-
-        terminalLog("[ READY ] Awaiting registration.");
-
     </script>
 
 </body>
+
 </html>
+
