@@ -1,9 +1,8 @@
-﻿دد
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CYBER-JJAAR | CTF</title>
 
     <style>
@@ -53,19 +52,6 @@
             font-weight: bold;
         }
 
-        nav {
-            display: flex;
-            gap: 10px;
-        }
-
-            nav button {
-                width: auto;
-                margin: 0;
-                background: transparent;
-                color: var(--green);
-                border: 1px solid var(--border);
-            }
-
         main {
             max-width: 1050px;
             margin: auto;
@@ -79,14 +65,13 @@
 
             .hero h1 {
                 color: var(--green);
-                font-size: clamp(35px, 7vw, 65px);
+                font-size: clamp(30px, 7vw, 65px);
                 letter-spacing: 4px;
                 text-shadow: 0 0 30px #00ff9d66;
             }
 
             .hero p {
                 color: var(--blue);
-                letter-spacing: 2px;
             }
 
         .card {
@@ -106,11 +91,6 @@
             margin-top: 20px;
         }
 
-            label::before {
-                content: "> ";
-                color: var(--green);
-            }
-
         input {
             width: 100%;
             padding: 15px;
@@ -125,7 +105,6 @@
 
             input:focus {
                 border-color: var(--green);
-                box-shadow: 0 0 12px #00ff9d44;
             }
 
         button {
@@ -148,6 +127,16 @@
             button:disabled {
                 opacity: .5;
                 cursor: not-allowed;
+            }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+            nav button {
+                width: auto;
+                margin: 0;
             }
 
         .terminal {
@@ -258,25 +247,15 @@
             color: var(--green);
             margin: 20px 0;
             border-radius: 8px;
-            overflow-wrap: anywhere;
             white-space: pre-wrap;
+            overflow-wrap: anywhere;
             line-height: 1.8;
-        }
-
-        .score {
-            color: var(--green);
-            font-size: 38px;
-            font-weight: bold;
         }
 
         progress {
             width: 100%;
             height: 16px;
             accent-color: var(--green);
-        }
-
-        .center {
-            text-align: center;
         }
 
         .error {
@@ -287,37 +266,8 @@
             color: var(--green);
         }
 
-        .live {
-            color: var(--green);
-            font-size: 12px;
-        }
-
-        .podium {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 25px 0;
-        }
-
-        .podium-card {
-            padding: 25px 10px;
+        .center {
             text-align: center;
-            background: #081521;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow-wrap: anywhere;
-        }
-
-        .first {
-            border-color: gold;
-        }
-
-        .second {
-            border-color: silver;
-        }
-
-        .third {
-            border-color: #cd956a;
         }
 
         .table-wrap {
@@ -381,7 +331,7 @@
             <button id="leaderboardBtn">LEADERBOARD</button>
         </nav>
 
-        <span class="live">● TRAINING SYSTEM</span>
+        <span class="success">● TRAINING SYSTEM</span>
     </header>
 
     <main>
@@ -424,14 +374,15 @@
 
                 <form id="terminalForm" class="command-line">
                     <span>agent@arena:~$</span>
-                    <input id="command" placeholder="Type help"
+
+                    <input id="command"
+                           placeholder="Type help"
                            autocomplete="off">
+
                     <button type="submit">RUN</button>
                 </form>
 
             </section>
-
-            <!-- REGISTRATION -->
 
             <section class="card" id="registration">
 
@@ -447,24 +398,26 @@
 
                     <label>Participant Number</label>
                     <input id="participantNumber"
-                           placeholder="Choose your game ID"
+                           placeholder="Choose your training ID"
                            maxlength="30"
                            required>
 
                     <label>Training Email</label>
                     <input id="email"
                            type="email"
-                           placeholder="Choose your training email"
+                           placeholder="agent@example.com"
                            maxlength="120"
                            required>
 
                     <div class="notice">
-                        Choose fictional training details.
-                        Use an email ending in @example.com,
-                        @example.org, @example.net or @example.invalid.
+                        Use fictional training information only.
+                        Use an example.com, example.org,
+                        example.net or example.invalid email.
                     </div>
 
-                    <button type="submit">
+                    <p id="registrationStatus"></p>
+
+                    <button type="submit" id="registerBtn">
                         INITIALIZE MISSION
                     </button>
 
@@ -499,7 +452,8 @@
 
                     </div>
 
-                    <progress id="progress" max="5" value="0"></progress>
+                    <progress id="progress" max="5" value="0">
+                    </progress>
 
                     <button id="viewRanking">VIEW LEADERBOARD</button>
 
@@ -515,9 +469,7 @@
 
                     <h2>Behind the Screen</h2>
 
-                    <p>
-                        Which HTML element defines the title of a page?
-                    </p>
+                    <p>Which HTML element defines the page title?</p>
 
                     <div class="code-box">
                         &lt;head&gt;
@@ -528,6 +480,7 @@
                     <form data-mission="0">
 
                         <label>Enter the element name</label>
+
                         <input required placeholder="Your answer"
                                autocomplete="off">
 
@@ -551,9 +504,7 @@
 
                     <p>Decode the training message.</p>
 
-                    <div class="code-box">
-                        Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==
-                    </div>
+                    <div class="code-box">Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==</div>
 
                     <div class="notice">
                         HINT: Base64 decoding.
@@ -574,7 +525,7 @@
 
                 </section>
 
-                <!-- LAB 3 -->
+                <!-- LAB 3: ISOLATED TRAINING RECORDS -->
 
                 <section class="card" id="mission3" hidden>
 
@@ -628,9 +579,8 @@
                     <h2>Lost in Linux</h2>
 
                     <p>
-                        Use the simulated Linux terminal.
-                        Find the command that displays the current
-                        working directory.
+                        Find the command that displays
+                        the current working directory.
                     </p>
 
                     <section class="terminal">
@@ -692,8 +642,8 @@
 
                     <p>
                         Review the fictional security logs.
-                        Identify the account that was locked
-                        and the exact time of the alert.
+                        Identify the locked account and the exact
+                        time of the alert.
                     </p>
 
                     <div class="code-box">
@@ -725,15 +675,13 @@
 
                 </section>
 
-                <!-- COMPLETED -->
-
                 <section class="card center" id="complete" hidden>
 
                     <h1 class="success">MISSION COMPLETE!</h1>
 
-                    <div class="score">1100 / 1100</div>
+                    <h2>1100 / 1100</h2>
 
-                    <h2>Congratulations, Agent!</h2>
+                    <p>Congratulations, Agent!</p>
 
                     <p id="finalTime"></p>
 
@@ -748,31 +696,28 @@
             </div>
         </div>
 
-        <!-- LEADERBOARD -->
-
         <section id="leaderboardPage" hidden>
 
             <div class="card">
 
                 <div class="center">
 
-                    <div style="font-size:45px">🏆</div>
+                    <h1>🏆</h1>
 
                     <h2>LIVE LEADERBOARD</h2>
 
                     <p>TOP CYBER AGENTS</p>
 
-                    <p class="live">
-                        ● AUTO REFRESH EVERY 5 SECONDS
+                    <p class="success">
+                        AUTO REFRESH EVERY 5 SECONDS
                     </p>
 
                 </div>
 
-                <div id="podium" class="podium"></div>
-
                 <div class="table-wrap">
 
                     <table>
+
                         <thead>
                             <tr>
                                 <th>RANK</th>
@@ -784,6 +729,7 @@
                         </thead>
 
                         <tbody id="rankingBody"></tbody>
+
                     </table>
 
                 </div>
@@ -794,7 +740,9 @@
                     REFRESH LEADERBOARD
                 </button>
 
-                <button id="backBtn">BACK TO MISSIONS</button>
+                <button id="backBtn">
+                    BACK TO MISSIONS
+                </button>
 
             </div>
 
@@ -808,86 +756,25 @@
 
     <script>
 
-        // SUPABASE CONFIGURATION
-
-        const SUPABASE_URL = "https://oeqhoypopwnjmgrtfcuh.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
-
-        let db = null;
-        let connectionError = null;
-        try {
-            if (!window.supabase) throw new Error("Supabase library failed to load. Refresh and check your connection.");
-            db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        } catch (error) {
-            connectionError = error.message;
-        }
+        "use strict";
 
         const $ = id => document.getElementById(id);
 
-        const points = [100, 200, 300, 200, 300];
+        const SUPABASE_URL =
+            "https://oeqhoypopwnjmgrtfcuh.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
+
+        const POINTS = [100, 200, 300, 200, 300];
 
         const TOTAL_POINTS = 1100;
-        const TOTAL_MISSIONS = 5;
 
+        let db = null;
         let state = null;
         let saving = false;
         let rankingLoading = false;
-
-        // MATRIX BACKGROUND
-
-        const canvas = $("matrix");
-        const ctx = canvas.getContext("2d");
-
-        let drops = [];
-
-        function resizeMatrix() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            drops = Array(
-                Math.ceil(canvas.width / 18)
-            ).fill(1);
-        }
-
-        resizeMatrix();
-
-        window.addEventListener("resize", resizeMatrix);
-
-        function drawMatrix() {
-
-            ctx.fillStyle = "rgba(5,11,18,.1)";
-
-            ctx.fillRect(
-                0, 0, canvas.width, canvas.height
-            );
-
-            ctx.fillStyle = "#00ff9d";
-            ctx.font = "16px monospace";
-
-            drops.forEach((drop, i) => {
-
-                ctx.fillText(
-                    Math.random() > .5 ? "1" : "0",
-                    i * 18,
-                    drop * 18
-                );
-
-                if (
-                    drop * 18 > canvas.height &&
-                    Math.random() > .975
-                ) {
-                    drops[i] = 0;
-                }
-
-                drops[i]++;
-            });
-        }
-
-        if (!window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches) {
-            setInterval(drawMatrix, 75);
-        }
+        let connectionError = "";
 
         // TERMINAL
 
@@ -898,15 +785,15 @@
             output.textContent += message + "\n";
 
             output.scrollTop = output.scrollHeight;
+
         }
 
-        terminalLog("[ OK ] CyberArena initialized.");
+        terminalLog("[ BUILD ] CYBER-JJAAR-V5");
+        terminalLog("[ OK ] Terminal initialized.");
         terminalLog("[ OK ] Five training modules loaded.");
-        terminalLog("[ READY ] Awaiting registration.");
-        terminalLog("Type 'help' for commands.");
-        if (connectionError) terminalLog("[ ERROR ] " + connectionError);
+        terminalLog("Type help for commands.");
 
-        $("terminalForm").onsubmit = event => {
+        $("terminalForm").addEventListener("submit", event => {
 
             event.preventDefault();
 
@@ -938,9 +825,7 @@
                 case "status":
 
                     terminalLog(
-                        "Score: " +
-                        calculateScore() +
-                        "/1100"
+                        "Score: " + calculateScore() + "/1100"
                     );
 
                     break;
@@ -964,11 +849,7 @@
 
                 case "time":
 
-                    terminalLog(
-                        "Elapsed: " +
-                        formatTime(elapsed())
-                    );
-
+                    terminalLog(formatTime(elapsed()));
                     break;
 
                 case "clear":
@@ -978,21 +859,53 @@
 
                 case "about":
 
-                    terminalLog(
-                        "CyberArena educational training."
-                    );
-
+                    terminalLog("CYBER-JJAAR educational platform.");
                     break;
 
                 default:
 
-                    terminalLog(
-                        "Unknown command. Type help."
-                    );
-            }
-        };
+                    terminalLog("Unknown command. Type help.");
 
-        // LINUX SIMULATOR
+            }
+
+        });
+
+        // DATABASE CONNECTION
+
+        function connectDatabase() {
+
+            try {
+
+                if (!window.supabase) {
+
+                    throw new Error(
+                        "Supabase library could not load."
+                    );
+
+                }
+
+                const url = new URL(SUPABASE_URL.trim());
+
+                db = window.supabase.createClient(
+                    url.origin,
+                    SUPABASE_KEY.trim()
+                );
+
+                terminalLog("[ OK ] Database client initialized.");
+
+            } catch (error) {
+
+                db = null;
+
+                connectionError = error.message;
+
+                terminalLog("[ ERROR ] " + connectionError);
+
+            }
+
+        }
+
+        // LINUX TERMINAL
 
         function linuxLog(message) {
 
@@ -1001,9 +914,10 @@
             output.textContent += message + "\n";
 
             output.scrollTop = output.scrollHeight;
+
         }
 
-        $("linuxForm").onsubmit = event => {
+        $("linuxForm").addEventListener("submit", event => {
 
             event.preventDefault();
 
@@ -1025,7 +939,7 @@
 
                 case "ls":
 
-                    linuxLog("notes.txt  documents  practice");
+                    linuxLog("notes.txt documents practice");
                     break;
 
                 case "pwd":
@@ -1046,8 +960,10 @@
                 default:
 
                     linuxLog("Command unavailable in simulator.");
+
             }
-        };
+
+        });
 
         // TIMER
 
@@ -1059,10 +975,9 @@
 
             return Math.max(
                 0,
-                Math.floor(
-                    (end - state.startedAt) / 1000
-                )
+                Math.floor((end - state.startedAt) / 1000)
             );
+
         }
 
         function formatTime(seconds) {
@@ -1076,9 +991,10 @@
 
             const remaining = seconds % 60;
 
-            return String(minutes).padStart(2, "0")
-                + ":" +
+            return String(minutes).padStart(2, "0") +
+                ":" +
                 String(remaining).padStart(2, "0");
+
         }
 
         setInterval(() => {
@@ -1094,10 +1010,11 @@
             if (!state) return 0;
 
             return state.solved.reduce(
-                (total, solved, i) =>
-                    total + (solved ? points[i] : 0),
+                (total, solved, index) =>
+                    total + (solved ? POINTS[index] : 0),
                 0
             );
+
         }
 
         // DASHBOARD
@@ -1115,18 +1032,16 @@
 
             $("score").textContent = calculateScore();
 
-            const completed =
-                state.solved.filter(Boolean).length;
+            const completed = state.solved.filter(Boolean).length;
 
-            $("labCount").textContent =
-                completed + "/" + TOTAL_MISSIONS;
+            $("labCount").textContent = completed + "/5";
 
             $("progress").value = completed;
 
-            for (let i = 0; i < TOTAL_MISSIONS; i++) {
+            for (let i = 0; i < 5; i++) {
 
-                $("mission" + (i + 1)).hidden =
-                    state.solved[i];
+                $("mission" + (i + 1)).hidden = state.solved[i];
+
             }
 
             $("mission3").hidden =
@@ -1140,77 +1055,107 @@
             if (state.solved.every(Boolean)) {
 
                 $("finalTime").textContent =
-                    "Completion time: " +
-                    formatTime(elapsed());
+                    "Completion time: " + formatTime(elapsed());
+
             }
+
+        }
+
+        // AUTHENTICATION
+
+        async function getSession() {
+
+            if (!db) {
+
+                throw new Error(
+                    connectionError || "Database unavailable."
+                );
+
+            }
+
+            const result = await db.auth.getSession();
+
+            if (result.error) throw result.error;
+
+            if (result.data.session) {
+
+                return result.data.session;
+
+            }
+
+            const login = await db.auth.signInAnonymously();
+
+            if (login.error) throw login.error;
+
+            if (!login.data.session) {
+
+                throw new Error("Could not create training session.");
+
+            }
+
+            return login.data.session;
+
         }
 
         // REGISTRATION
 
-        $("regForm").onsubmit = async event => {
+        $("regForm").addEventListener("submit", async event => {
 
             event.preventDefault();
 
             const name = $("name").value.trim();
 
-            const number =
-                $("participantNumber").value.trim();
+            const number = $("participantNumber").value.trim();
 
             const email = $("email").value.trim();
 
-            const button =
-                event.target.querySelector("button");
+            const button = $("registerBtn");
 
-            if (!name || !number || !email) return;
+            const status = $("registrationStatus");
 
-            if (!/^[^@]+@example\.(com|org|net|invalid)$/i.test(email)) {
+            status.textContent = "";
 
-                alert("Please use a fictional training email.");
+            if (!name || !number || !email) {
 
+                status.textContent = "Complete all fields.";
+                status.className = "error";
                 return;
+
+            }
+
+            if (!/^[^@\s]+@example\.(com|org|net|invalid)$/i.test(email)) {
+
+                status.textContent = "Use a fictional training email.";
+                status.className = "error";
+                return;
+
             }
 
             button.disabled = true;
+
             button.textContent = "REGISTERING...";
 
             try {
 
-                if (!db) throw new Error(connectionError || "Database unavailable");
-                let {
-                    data: { session },
-                    error: sessionError
-                } = await db.auth.getSession();
+                const session = await getSession();
 
-                if (sessionError) throw sessionError;
-
-                if (!session) {
-
-                    const result =
-                        await db.auth.signInAnonymously();
-
-                    if (result.error) throw result.error;
-
-                    session = result.data.session;
-                }
-
-                const { data, error } = await db
+                const result = await db
                     .from("participants")
                     .insert({
-
                         owner_id: session.user.id,
                         agent_name: name,
                         participant_number: number,
                         training_email: email
-
                     })
                     .select("id, created_at")
                     .single();
 
-                if (error) throw error;
+                if (result.error) throw result.error;
 
                 state = {
 
-                    id: data.id,
+                    id: result.data.id,
+
                     name: name,
 
                     solved: [
@@ -1222,32 +1167,47 @@
                     ],
 
                     startedAt:
-                        new Date(data.created_at).getTime(),
+                        new Date(result.data.created_at).getTime()
+                        || Date.now(),
 
                     finishedAt: null
+
                 };
 
                 terminalLog("[ OK ] Agent registered.");
-                terminalLog("[ START ] Timer initialized.");
+
+                terminalLog("[ START ] Mission initialized.");
+
+                status.textContent = "Registration successful.";
+
+                status.className = "success";
 
                 render();
+
                 loadLeaderboard();
 
             } catch (error) {
 
+                status.textContent =
+                    "Registration failed: " + error.message;
+
+                status.className = "error";
+
                 terminalLog("[ ERROR ] " + error.message);
 
-                alert("Registration failed: " + error.message);
+                console.error(error);
 
             } finally {
 
                 button.disabled = false;
 
                 button.textContent = "INITIALIZE MISSION";
-            }
-        };
 
-        // TRAINING ANSWERS
+            }
+
+        });
+
+        // ANSWER VALIDATION
 
         function checkAnswer(index, answer) {
 
@@ -1256,32 +1216,39 @@
             switch (index) {
 
                 case 0:
+
                     return value.toLowerCase() === "title";
 
                 case 1:
+
                     return value ===
                         atob("Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==");
 
                 case 2:
+
                     return value.toUpperCase() === "TR-307";
 
                 case 3:
+
                     return value.toLowerCase() === "pwd";
 
                 case 4:
+
                     return value.toUpperCase() === "B-08:12:45";
 
                 default:
+
                     return false;
+
             }
+
         }
 
         // SAVE PROGRESS
 
         async function saveProgress(nextSolved) {
 
-            if (!db) throw new Error(connectionError || "Database unavailable");
-            const { data, error } = await db
+            const result = await db
                 .from("participants")
                 .update({
 
@@ -1296,28 +1263,29 @@
                 .select("score, updated_at")
                 .single();
 
-            if (error) throw error;
+            if (result.error) throw result.error;
 
-            return data;
+            return result.data;
+
         }
 
-        // VERIFY ANSWERS
+        // MISSION SUBMISSION
 
         document.querySelectorAll("[data-mission]")
             .forEach(form => {
 
-                form.onsubmit = async event => {
+                form.addEventListener("submit", async event => {
 
                     event.preventDefault();
 
                     if (!state || saving) return;
 
-                    const i = Number(form.dataset.mission);
+                    const index = Number(form.dataset.mission);
 
-                    if (state.solved[i]) return;
+                    if (state.solved[index]) return;
 
                     if (
-                        i === 2 &&
+                        index === 2 &&
                         (!state.solved[0] || !state.solved[1])
                     ) return;
 
@@ -1328,73 +1296,79 @@
                     const status =
                         form.querySelector(".mission-status");
 
+                    if (!checkAnswer(index, input.value)) {
+
+                        status.textContent =
+                            "Incorrect answer. Try again.";
+
+                        status.className = "mission-status error";
+
+                        return;
+
+                    }
+
                     saving = true;
+
                     button.disabled = true;
 
                     try {
 
-                        if (!checkAnswer(i, input.value)) {
-
-                            status.textContent =
-                                "Incorrect answer. Try again.";
-
-                            status.className =
-                                "mission-status error";
-
-                            return;
-                        }
-
                         const nextSolved = [...state.solved];
 
-                        nextSolved[i] = true;
+                        nextSolved[index] = true;
 
-                        const saved =
-                            await saveProgress(nextSolved);
+                        const saved = await saveProgress(nextSolved);
 
                         state.solved = nextSolved;
 
                         if (state.solved.every(Boolean)) {
 
-                            state.finishedAt =
-                                new Date(saved.updated_at).getTime();
+                            state.finishedAt = Date.now();
+
                         }
+
+                        status.textContent = "Correct answer!";
+
+                        status.className = "mission-status success";
 
                         terminalLog(
                             "[ SUCCESS ] Lab " +
-                            (i + 1) +
+                            (index + 1) +
                             " completed. +" +
-                            points[i] +
+                            POINTS[index] +
                             " points."
                         );
 
                         terminalLog(
-                            "[ SAVED ] Score: " +
-                            saved.score +
-                            "/1100"
+                            "[ SAVED ] Database score: " +
+                            saved.score + "/1100"
                         );
 
                         render();
+
                         loadLeaderboard();
 
                     } catch (error) {
 
                         status.textContent =
-                            "Saving failed. Try again.";
+                            "Saving failed: " + error.message;
 
-                        status.className =
-                            "mission-status error";
+                        status.className = "mission-status error";
 
-                        terminalLog(
-                            "[ ERROR ] " + error.message
-                        );
+                        terminalLog("[ ERROR ] " + error.message);
+
+                        console.error(error);
 
                     } finally {
 
                         saving = false;
 
-                        button.disabled = state.solved[i];
+                        button.disabled = state.solved[index];
+
                     }
-                };
+
+                });
+
             });
 
         // LEADERBOARD
@@ -1406,55 +1380,7 @@
             cell.textContent = value;
 
             row.appendChild(cell);
-        }
 
-        function renderPodium(data) {
-
-            const podium = $("podium");
-
-            podium.replaceChildren();
-
-            const order = [1, 0, 2];
-
-            const medals = ["🥇", "🥈", "🥉"];
-
-            const classes = ["first", "second", "third"];
-
-            order.forEach(index => {
-
-                const player = data[index];
-
-                const card = document.createElement("div");
-
-                card.className =
-                    "podium-card " + classes[index];
-
-                const medal = document.createElement("h1");
-
-                medal.textContent = medals[index];
-
-                const name = document.createElement("h3");
-
-                name.textContent =
-                    player ? player.agent_name : "---";
-
-                const score = document.createElement("div");
-
-                score.className = "score";
-
-                score.textContent =
-                    player ? player.score : "0";
-
-                const time = document.createElement("p");
-
-                time.textContent = player
-                    ? formatTime(player.elapsed_seconds)
-                    : "--:--";
-
-                card.append(medal, name, score, time);
-
-                podium.appendChild(card);
-            });
         }
 
         async function loadLeaderboard() {
@@ -1465,21 +1391,34 @@
 
             try {
 
-                if (!db) throw new Error(connectionError || "Database unavailable");
-                const { data, error } =
-                    await db.rpc("get_leaderboard");
+                if (!db) {
 
-                if (error) throw error;
+                    throw new Error(
+                        connectionError || "Database unavailable."
+                    );
+
+                }
+
+                const result = await db.rpc("get_leaderboard");
+
+                if (result.error) throw result.error;
+
+                const players = result.data || [];
 
                 const body = $("rankingBody");
 
                 body.replaceChildren();
 
-                data.forEach((player, index) => {
+                players.forEach((player, index) => {
 
                     const row = document.createElement("tr");
 
-                    addCell(row, "#" + (index + 1));
+                    const rank = index === 0 ? "🥇 1" :
+                        index === 1 ? "🥈 2" :
+                            index === 2 ? "🥉 3" :
+                                "#" + (index + 1);
+
+                    addCell(row, rank);
 
                     addCell(row, player.agent_name);
 
@@ -1493,23 +1432,29 @@
                     );
 
                     body.appendChild(row);
+
                 });
 
-                renderPodium(data);
-
                 $("rankingStatus").textContent =
-                    "Updated: " +
-                    new Date().toLocaleTimeString();
+                    "Updated: " + new Date().toLocaleTimeString();
+
+                $("rankingStatus").className = "success";
 
             } catch (error) {
 
                 $("rankingStatus").textContent =
                     "Leaderboard error: " + error.message;
 
+                $("rankingStatus").className = "error";
+
+                console.error(error);
+
             } finally {
 
                 rankingLoading = false;
+
             }
+
         }
 
         // NAVIGATION
@@ -1523,6 +1468,7 @@
             loadLeaderboard();
 
             window.scrollTo(0, 0);
+
         }
 
         function showHome() {
@@ -1532,6 +1478,7 @@
             $("leaderboardPage").hidden = true;
 
             window.scrollTo(0, 0);
+
         }
 
         $("leaderboardBtn").onclick = showLeaderboard;
@@ -1551,9 +1498,97 @@
             if (!$("leaderboardPage").hidden) {
 
                 loadLeaderboard();
+
             }
 
         }, 5000);
+
+        // MATRIX BACKGROUND
+
+        function startMatrix() {
+
+            const canvas = $("matrix");
+
+            const ctx = canvas.getContext("2d");
+
+            if (!ctx) return;
+
+            let drops = [];
+
+            function resize() {
+
+                canvas.width = window.innerWidth;
+
+                canvas.height = window.innerHeight;
+
+                drops = Array(
+                    Math.ceil(canvas.width / 18)
+                ).fill(1);
+
+            }
+
+            resize();
+
+            window.addEventListener("resize", resize);
+
+            if (
+                window.matchMedia(
+                    "(prefers-reduced-motion: reduce)"
+                ).matches
+            ) return;
+
+            setInterval(() => {
+
+                ctx.fillStyle = "rgba(5,11,18,.1)";
+
+                ctx.fillRect(
+                    0, 0, canvas.width, canvas.height
+                );
+
+                ctx.fillStyle = "#00ff9d";
+
+                ctx.font = "16px monospace";
+
+                drops.forEach((drop, index) => {
+
+                    ctx.fillText(
+                        Math.random() > .5 ? "1" : "0",
+                        index * 18,
+                        drop * 18
+                    );
+
+                    if (
+                        drop * 18 > canvas.height &&
+                        Math.random() > .975
+                    ) {
+
+                        drops[index] = 0;
+
+                    }
+
+                    drops[index]++;
+
+                });
+
+            }, 75);
+
+        }
+
+        // INITIALIZATION
+
+        connectDatabase();
+
+        try {
+
+            startMatrix();
+
+        } catch (error) {
+
+            console.warn("Background animation unavailable.");
+
+        }
+
+        terminalLog("[ READY ] Awaiting registration.");
 
     </script>
 
