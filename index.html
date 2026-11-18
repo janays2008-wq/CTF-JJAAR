@@ -657,17 +657,16 @@
                     <p>Review the fictional training record.</p>
 
                     <div class="code-box">
-                        Inspect the fictional training records returned by the training service. <br><br>
-                        Find the training agent named rahaf. <br><br>
-                        Her challenge_flag is the answer. <br><br>
+                        Review the simulated training response below. Find the fictional agent named rahaf and submit her training flag. No participant records are used.
                     </div>
 
+                    <pre id="demoResponse" class="code-box" style="white-space:pre-wrap"></pre>
                     <form data-mission="4">
 
                         <label>Final Flag</label>
 
                         <input required
-                               placeholder="GG{...}"
+                               placeholder="CTF{...}"
                                autocomplete="off">
 
                         <button type="submit">
@@ -787,7 +786,7 @@
         let saving = false;
         let rankingLoading = false;
 
-        const flagHashes = ["cc3351d777e28a673546a5108749441474145b87b3d7ed8ff2d5557b62a709e7", "389e395c7f639035d72fdb59d44a87378d7d52564324c160404424dcfd8e853c", "da4bca012a1b53ed0e0aeaf80c97bfe0de24749d3f62559e07c6280fd94fba9e", "f9c8d62a2394db1b5b950768631821947f6ca964ed4363e4bffcf364cd429b5b", "853fbc3d4df9e96f7fecd66185955ad569a5f11acb74232ae56a87b463cd70f1"];
+        const flagHashes = ["cc3351d777e28a673546a5108749441474145b87b3d7ed8ff2d5557b62a709e7", "389e395c7f639035d72fdb59d44a87378d7d52564324c160404424dcfd8e853c", "da4bca012a1b53ed0e0aeaf80c97bfe0de24749d3f62559e07c6280fd94fba9e", "f9c8d62a2394db1b5b950768631821947f6ca964ed4363e4bffcf364cd429b5b", "bede00860c08d8d7b11ca04e2a1f1564816211f3e9b75da9ba3a96fc1900c15c"];
 
         // TERMINAL
 
@@ -1178,8 +1177,11 @@
             const button = $("startFinal");
             button.disabled = true;
             try {
-                const { error } = await db.rpc("get_training_records", {}, { get: true });
-                if (error) throw error;
+                const demo = [
+                    { agent_name: "demo_agent", score: 500, training_flag: null },
+                    { agent_name: "rahaf", score: 800, training_flag: "CTF{demo_records}" }
+                ];
+                $("demoResponse").textContent = JSON.stringify(demo, null, 2);
                 finalStarted = true;
                 render();
             } catch (error) {
