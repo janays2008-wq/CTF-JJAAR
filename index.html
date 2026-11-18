@@ -143,7 +143,6 @@
 
             button:hover {
                 background: var(--blue);
-                color: #041019;
             }
 
             button:disabled {
@@ -185,7 +184,7 @@
             background: #28c840;
         }
 
-        #terminalOutput {
+        #terminalOutput, #linuxOutput {
             min-height: 140px;
             max-height: 270px;
             overflow-y: auto;
@@ -260,6 +259,8 @@
             margin: 20px 0;
             border-radius: 8px;
             overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            line-height: 1.8;
         }
 
         .score {
@@ -319,10 +320,6 @@
             border-color: #cd956a;
         }
 
-        .medal {
-            font-size: 35px;
-        }
-
         .table-wrap {
             overflow-x: auto;
         }
@@ -340,15 +337,6 @@
 
         th {
             color: var(--blue);
-        }
-
-        .rank {
-            color: gold;
-        }
-
-        .score-cell {
-            color: var(--green);
-            font-weight: bold;
         }
 
         footer {
@@ -386,7 +374,7 @@
     <canvas id="matrix"></canvas>
 
     <header>
-        <div class="brand">CYS - CTF </div>
+        <div class="brand">CYS - CTF</div>
 
         <nav>
             <button id="homeBtn">MISSIONS</button>
@@ -408,12 +396,12 @@
 
             <div class="stats">
                 <div class="stat">
-                    <strong>03</strong>
+                    <strong>05</strong>
                     MISSIONS
                 </div>
 
                 <div class="stat">
-                    <strong>600</strong>
+                    <strong>1100</strong>
                     POINTS
                 </div>
 
@@ -422,8 +410,6 @@
                     RANKING
                 </div>
             </div>
-
-            <!-- TERMINAL -->
 
             <section class="terminal">
 
@@ -438,11 +424,8 @@
 
                 <form id="terminalForm" class="command-line">
                     <span>agent@arena:~$</span>
-
-                    <input id="command"
-                           placeholder="Type help"
+                    <input id="command" placeholder="Type help"
                            autocomplete="off">
-
                     <button type="submit">RUN</button>
                 </form>
 
@@ -456,38 +439,29 @@
 
                 <form id="regForm">
 
-                    <label for="name">Agent Name</label>
-
+                    <label>Agent Name</label>
                     <input id="name"
-                           type="text"
                            placeholder="Choose your nickname"
                            maxlength="40"
                            required>
 
-                    <label for="participantNumber">
-                        Participant Number
-                    </label>
-
+                    <label>Participant Number</label>
                     <input id="participantNumber"
-                           type="text"
                            placeholder="Choose your game ID"
                            maxlength="30"
                            required>
 
-                    <label for="email">Training Email</label>
-
+                    <label>Training Email</label>
                     <input id="email"
                            type="email"
                            placeholder="Choose your training email"
                            maxlength="120"
-                           autocomplete="off"
                            required>
 
                     <div class="notice">
-                        Choose your own fictional training details.
-                        Use a training email ending in
-                        @example.com, @example.org,
-                        @example.net or @example.invalid.
+                        Choose fictional training details.
+                        Use an email ending in @example.com,
+                        @example.org, @example.net or @example.invalid.
                     </div>
 
                     <button type="submit">
@@ -497,8 +471,6 @@
                 </form>
 
             </section>
-
-            <!-- DASHBOARD -->
 
             <div id="game" hidden>
 
@@ -512,7 +484,7 @@
 
                         <div class="stat">
                             <strong id="score">0</strong>
-                            SCORE / 600
+                            SCORE / 1100
                         </div>
 
                         <div class="stat">
@@ -521,21 +493,19 @@
                         </div>
 
                         <div class="stat">
-                            <strong id="labCount">0/3</strong>
+                            <strong id="labCount">0/5</strong>
                             LABS
                         </div>
 
                     </div>
 
-                    <progress id="progress" max="3" value="0">
-                    </progress>
+                    <progress id="progress" max="5" value="0"></progress>
 
-                    <button id="viewRanking">
-                        VIEW LEADERBOARD
-                    </button>
+                    <button id="viewRanking">VIEW LEADERBOARD</button>
 
                 </section>
 
+                <!-- LAB 1 -->
 
                 <section class="card" id="mission1">
 
@@ -546,23 +516,22 @@
                     <h2>Behind the Screen</h2>
 
                     <p>
-                        Inspect this training page's HTML source
-                        and discover the first flag.
+                        Which HTML element defines the title of a page?
                     </p>
 
-                    <!-- CTF{source_detective} -->
+                    <div class="code-box">
+                        &lt;head&gt;
+                        &lt;title&gt;Cyber Arena&lt;/title&gt;
+                        &lt;/head&gt;
+                    </div>
 
                     <form data-mission="0">
 
-                        <label>Flag 01</label>
-
-                        <input required
-                               placeholder="CTF{...}"
+                        <label>Enter the element name</label>
+                        <input required placeholder="Your answer"
                                autocomplete="off">
 
-                        <button type="submit">
-                            SUBMIT FLAG
-                        </button>
+                        <button type="submit">SUBMIT ANSWER</button>
 
                         <p class="mission-status"></p>
 
@@ -570,7 +539,7 @@
 
                 </section>
 
-
+                <!-- LAB 2 -->
 
                 <section class="card" id="mission2">
 
@@ -594,13 +563,10 @@
 
                         <label>Flag 02</label>
 
-                        <input required
-                               placeholder="CTF{...}"
+                        <input required placeholder="CTF{...}"
                                autocomplete="off">
 
-                        <button type="submit">
-                            SUBMIT FLAG
-                        </button>
+                        <button type="submit">SUBMIT FLAG</button>
 
                         <p class="mission-status"></p>
 
@@ -608,51 +574,150 @@
 
                 </section>
 
-                <!-- FINAL GATE -->
-
-                <section class="card center" id="gate" hidden>
-
-                    <h2>ACCESS GRANTED</h2>
-
-                    <div class="score">300 / 600</div>
-
-                    <p>First two labs completed.</p>
-
-                    <button id="startFinal">
-                        UNLOCK FINAL LAB
-                    </button>
-
-                </section>
-
                 <!-- LAB 3 -->
 
-                <section class="card" id="final" hidden>
+                <section class="card" id="mission3" hidden>
 
                     <span class="mission-number">
-                        LAB 03 // FINAL // 300 POINTS
+                        LAB 03 // MEDIUM // 300 POINTS
                     </span>
 
                     <h2>The Hidden Flag</h2>
 
-                    <p>search the data base</p>
+                    <p>
+                        Analyze the fictional training records.
+                        Identify the evidence reference assigned to Rahaf.
+                    </p>
 
                     <div class="code-box">
-                        Inspect the fictional training response. <br><br>
-                        Find the training agent named rahaf. <br><br>
-                        Her challenge_flag is the answer.
+                        TRAINING RECORDS
+
+                        Agent: Sara
+                        Evidence: TR-102
+
+                        Agent: Rahaf
+                        Evidence: TR-307
+
+                        Agent: Noor
+                        Evidence: TR-415
                     </div>
 
                     <form data-mission="2">
 
-                        <label>Final Flag</label>
+                        <label>Evidence Reference</label>
 
-                        <input required
-                               placeholder="GG{...}"
+                        <input required placeholder="TR-..."
                                autocomplete="off">
 
-                        <button type="submit">
-                            VERIFY FLAG
-                        </button>
+                        <button type="submit">VERIFY ANSWER</button>
+
+                        <p class="mission-status"></p>
+
+                    </form>
+
+                </section>
+
+                <!-- LAB 4 -->
+
+                <section class="card" id="mission4">
+
+                    <span class="mission-number">
+                        LAB 04 // MEDIUM // 200 POINTS
+                    </span>
+
+                    <h2>Lost in Linux</h2>
+
+                    <p>
+                        Use the simulated Linux terminal.
+                        Find the command that displays the current
+                        working directory.
+                    </p>
+
+                    <section class="terminal">
+
+                        <div class="terminal-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <small>Linux training simulator</small>
+                        </div>
+
+                        <div id="linuxOutput">
+                            Linux simulator ready.
+                            Type help to view available commands.
+                        </div>
+
+                        <form id="linuxForm" class="command-line">
+
+                            <span>student:~$</span>
+
+                            <input id="linuxCommand"
+                                   placeholder="Enter command"
+                                   autocomplete="off">
+
+                            <button type="submit">RUN</button>
+
+                        </form>
+
+                    </section>
+
+                    <div class="notice">
+                        HINT: Print Working Directory.
+                    </div>
+
+                    <form data-mission="3">
+
+                        <label>Enter the correct Linux command</label>
+
+                        <input required placeholder="Linux command"
+                               autocomplete="off">
+
+                        <button type="submit">SUBMIT ANSWER</button>
+
+                        <p class="mission-status"></p>
+
+                    </form>
+
+                </section>
+
+                <!-- LAB 5 -->
+
+                <section class="card" id="mission5">
+
+                    <span class="mission-number">
+                        LAB 05 // HARD // 300 POINTS
+                    </span>
+
+                    <h2>Digital Investigation</h2>
+
+                    <p>
+                        Review the fictional security logs.
+                        Identify the account that was locked
+                        and the exact time of the alert.
+                    </p>
+
+                    <div class="code-box">
+                        08:00:01 | INFO | System started
+                        08:05:12 | INFO | Backup completed
+                        08:10:22 | WARNING | Agent A login failed
+                        08:11:30 | WARNING | Agent B login failed
+                        08:12:45 | ALERT | Agent B account locked
+                        08:20:10 | INFO | Review completed
+                    </div>
+
+                    <div class="notice">
+                        Answer format: ACCOUNT-TIME
+                        Example: A-09:00:00
+                    </div>
+
+                    <form data-mission="4">
+
+                        <label>Enter the investigation result</label>
+
+                        <input required placeholder="A-00:00:00"
+                               autocomplete="off">
+
+                        <button type="submit">SUBMIT EVIDENCE</button>
 
                         <p class="mission-status"></p>
 
@@ -666,7 +731,7 @@
 
                     <h1 class="success">MISSION COMPLETE!</h1>
 
-                    <div class="score">600 / 600</div>
+                    <div class="score">1100 / 1100</div>
 
                     <h2>Congratulations, Agent!</h2>
 
@@ -676,14 +741,11 @@
                         Your final score has been saved.
                     </div>
 
-                    <button id="finalRanking">
-                        VIEW FINAL RANKING
-                    </button>
+                    <button id="finalRanking">VIEW FINAL RANKING</button>
 
                 </section>
 
             </div>
-
         </div>
 
         <!-- LEADERBOARD -->
@@ -693,12 +755,17 @@
             <div class="card">
 
                 <div class="center">
+
                     <div style="font-size:45px">🏆</div>
+
                     <h2>LIVE LEADERBOARD</h2>
+
                     <p>TOP CYBER AGENTS</p>
+
                     <p class="live">
                         ● AUTO REFRESH EVERY 5 SECONDS
                     </p>
+
                 </div>
 
                 <div id="podium" class="podium"></div>
@@ -727,9 +794,7 @@
                     REFRESH LEADERBOARD
                 </button>
 
-                <button id="backBtn">
-                    BACK TO MISSIONS
-                </button>
+                <button id="backBtn">BACK TO MISSIONS</button>
 
             </div>
 
@@ -737,21 +802,16 @@
 
     </main>
 
-    <footer>
-        CYBERSECURITY TRAINING
-    </footer>
+    <footer>CYBERSECURITY TRAINING</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
 
-        // SUPABASE
+        // SUPABASE CONFIGURATION
 
-        const SUPABASE_URL =
-            "https://oeqhoypopwnjmgrtfcuh.supabase.co";
-
-        const SUPABASE_KEY =
-            "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
+        const SUPABASE_URL = "YOUR_SUPABASE_URL";
+        const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
 
         const db = supabase.createClient(
             SUPABASE_URL,
@@ -760,100 +820,14 @@
 
         const $ = id => document.getElementById(id);
 
-        const points = [100, 200, 300];
+        const points = [100, 200, 300, 200, 300];
+
+        const TOTAL_POINTS = 1100;
+        const TOTAL_MISSIONS = 5;
 
         let state = null;
-        let finalStarted = false;
         let saving = false;
         let rankingLoading = false;
-
-        const flagHashes = [
-            "cc3351d777e28a673546a5108749441474145b87b3d7ed8ff2d5557b62a709e7",
-            "389e395c7f639035d72fdb59d44a87378d7d52564324c160404424dcfd8e853c",
-            "d7bc4195ca1e6040df7646b510c11f035237d6aab9cbfe5da0f4e1ae4771c7af"
-        ];
-
-        // TERMINAL
-
-        function terminalLog(message) {
-
-            const output = $("terminalOutput");
-
-            output.textContent += message + "\n";
-
-            output.scrollTop = output.scrollHeight;
-        }
-
-        terminalLog("[ OK ] CyberArena initialized.");
-        terminalLog("[ OK ] Training modules loaded.");
-        terminalLog("[ READY ] Awaiting registration.");
-        terminalLog("Type 'help' for commands.");
-
-        $("terminalForm").onsubmit = event => {
-
-            event.preventDefault();
-
-            const command =
-                $("command").value.trim().toLowerCase();
-
-            $("command").value = "";
-
-            if (!command) return;
-
-            terminalLog("agent@arena:~$ " + command);
-
-            switch (command) {
-
-                case "help":
-                    terminalLog(
-                        "help - Show commands\n" +
-                        "status - Current score\n" +
-                        "missions - List missions\n" +
-                        "leaderboard - View rankings\n" +
-                        "time - Current timer\n" +
-                        "clear - Clear terminal\n" +
-                        "about - About platform"
-                    );
-                    break;
-
-                case "status":
-                    terminalLog(
-                        "Score: " + calculateScore() + "/600"
-                    );
-                    break;
-
-                case "missions":
-                    terminalLog(
-                        "01 - Behind the Screen\n" +
-                        "02 - Silent Transmission\n" +
-                        "03 - The Hidden Flag"
-                    );
-                    break;
-
-                case "leaderboard":
-                    showLeaderboard();
-                    break;
-
-                case "time":
-                    terminalLog(
-                        "Elapsed: " + formatTime(elapsed())
-                    );
-                    break;
-
-                case "clear":
-                    $("terminalOutput").textContent = "";
-                    break;
-
-                case "about":
-                    terminalLog(
-                        "CyberArena educational training."
-                    );
-                    break;
-
-                default:
-                    terminalLog("Unknown command. Type help.");
-            }
-        };
 
         // MATRIX BACKGROUND
 
@@ -863,7 +837,6 @@
         let drops = [];
 
         function resizeMatrix() {
-
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
@@ -912,6 +885,165 @@
             setInterval(drawMatrix, 75);
         }
 
+        // TERMINAL
+
+        function terminalLog(message) {
+
+            const output = $("terminalOutput");
+
+            output.textContent += message + "\n";
+
+            output.scrollTop = output.scrollHeight;
+        }
+
+        terminalLog("[ OK ] CyberArena initialized.");
+        terminalLog("[ OK ] Five training modules loaded.");
+        terminalLog("[ READY ] Awaiting registration.");
+        terminalLog("Type 'help' for commands.");
+
+        $("terminalForm").onsubmit = event => {
+
+            event.preventDefault();
+
+            const command = $("command")
+                .value.trim().toLowerCase();
+
+            $("command").value = "";
+
+            if (!command) return;
+
+            terminalLog("agent@arena:~$ " + command);
+
+            switch (command) {
+
+                case "help":
+
+                    terminalLog(
+                        "help - Show commands\n" +
+                        "status - Current score\n" +
+                        "missions - List missions\n" +
+                        "leaderboard - View rankings\n" +
+                        "time - Current timer\n" +
+                        "clear - Clear terminal\n" +
+                        "about - About platform"
+                    );
+
+                    break;
+
+                case "status":
+
+                    terminalLog(
+                        "Score: " +
+                        calculateScore() +
+                        "/1100"
+                    );
+
+                    break;
+
+                case "missions":
+
+                    terminalLog(
+                        "01 - Behind the Screen\n" +
+                        "02 - Silent Transmission\n" +
+                        "03 - The Hidden Flag\n" +
+                        "04 - Lost in Linux\n" +
+                        "05 - Digital Investigation"
+                    );
+
+                    break;
+
+                case "leaderboard":
+
+                    showLeaderboard();
+                    break;
+
+                case "time":
+
+                    terminalLog(
+                        "Elapsed: " +
+                        formatTime(elapsed())
+                    );
+
+                    break;
+
+                case "clear":
+
+                    $("terminalOutput").textContent = "";
+                    break;
+
+                case "about":
+
+                    terminalLog(
+                        "CyberArena educational training."
+                    );
+
+                    break;
+
+                default:
+
+                    terminalLog(
+                        "Unknown command. Type help."
+                    );
+            }
+        };
+
+        // LINUX SIMULATOR
+
+        function linuxLog(message) {
+
+            const output = $("linuxOutput");
+
+            output.textContent += message + "\n";
+
+            output.scrollTop = output.scrollHeight;
+        }
+
+        $("linuxForm").onsubmit = event => {
+
+            event.preventDefault();
+
+            const command = $("linuxCommand")
+                .value.trim().toLowerCase();
+
+            $("linuxCommand").value = "";
+
+            if (!command) return;
+
+            linuxLog("student:~$ " + command);
+
+            switch (command) {
+
+                case "help":
+
+                    linuxLog("help, ls, pwd, date, clear");
+                    break;
+
+                case "ls":
+
+                    linuxLog("notes.txt  documents  practice");
+                    break;
+
+                case "pwd":
+
+                    linuxLog("/home/student");
+                    break;
+
+                case "date":
+
+                    linuxLog(new Date().toLocaleString());
+                    break;
+
+                case "clear":
+
+                    $("linuxOutput").textContent = "";
+                    break;
+
+                default:
+
+                    linuxLog("Command unavailable in simulator.");
+            }
+        };
+
         // TIMER
 
         function elapsed() {
@@ -922,7 +1054,9 @@
 
             return Math.max(
                 0,
-                Math.floor((end - state.startedAt) / 1000)
+                Math.floor(
+                    (end - state.startedAt) / 1000
+                )
             );
         }
 
@@ -934,34 +1068,19 @@
             );
 
             const minutes = Math.floor(seconds / 60);
+
             const remaining = seconds % 60;
 
             return String(minutes).padStart(2, "0")
-                + ":"
-                + String(remaining).padStart(2, "0");
+                + ":" +
+                String(remaining).padStart(2, "0");
         }
 
         setInterval(() => {
 
-            $("timer").textContent =
-                formatTime(elapsed());
+            $("timer").textContent = formatTime(elapsed());
 
         }, 1000);
-
-        // HASH
-
-        async function hashText(value) {
-
-            const bytes = await crypto.subtle.digest(
-                "SHA-256",
-                new TextEncoder().encode(value.trim())
-            );
-
-            return Array.from(
-                new Uint8Array(bytes),
-                b => b.toString(16).padStart(2, "0")
-            ).join("");
-        }
 
         // SCORE
 
@@ -983,6 +1102,7 @@
             if (!state) return;
 
             $("registration").hidden = true;
+
             $("game").hidden = false;
 
             $("welcome").textContent =
@@ -994,22 +1114,19 @@
                 state.solved.filter(Boolean).length;
 
             $("labCount").textContent =
-                completed + "/3";
+                completed + "/" + TOTAL_MISSIONS;
 
             $("progress").value = completed;
 
-            $("mission1").hidden = state.solved[0];
-            $("mission2").hidden = state.solved[1];
+            for (let i = 0; i < TOTAL_MISSIONS; i++) {
 
-            const firstTwoDone =
-                state.solved[0] && state.solved[1];
+                $("mission" + (i + 1)).hidden =
+                    state.solved[i];
+            }
 
-            $("gate").hidden =
-                !firstTwoDone || finalStarted;
-
-            $("final").hidden =
-                !firstTwoDone ||
-                !finalStarted ||
+            $("mission3").hidden =
+                !state.solved[0] ||
+                !state.solved[1] ||
                 state.solved[2];
 
             $("complete").hidden =
@@ -1034,8 +1151,7 @@
             const number =
                 $("participantNumber").value.trim();
 
-            const email =
-                $("email").value.trim();
+            const email = $("email").value.trim();
 
             const button =
                 event.target.querySelector("button");
@@ -1044,9 +1160,7 @@
 
             if (!/^[^@]+@example\.(com|org|net|invalid)$/i.test(email)) {
 
-                alert(
-                    "Please use a fictional training email."
-                );
+                alert("Please use a fictional training email.");
 
                 return;
             }
@@ -1076,10 +1190,12 @@
                 const { data, error } = await db
                     .from("participants")
                     .insert({
+
                         owner_id: session.user.id,
                         agent_name: name,
                         participant_number: number,
                         training_email: email
+
                     })
                     .select("id, created_at")
                     .single();
@@ -1087,18 +1203,25 @@
                 if (error) throw error;
 
                 state = {
+
                     id: data.id,
                     name: name,
-                    solved: [false, false, false],
+
+                    solved: [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ],
+
                     startedAt:
                         new Date(data.created_at).getTime(),
+
                     finishedAt: null
                 };
 
-                finalStarted = false;
-
                 terminalLog("[ OK ] Agent registered.");
-                terminalLog("[ SAVED ] Training data saved.");
                 terminalLog("[ START ] Timer initialized.");
 
                 render();
@@ -1108,27 +1231,59 @@
 
                 terminalLog("[ ERROR ] " + error.message);
 
-                alert(
-                    "Registration failed: " + error.message
-                );
+                alert("Registration failed: " + error.message);
 
             } finally {
 
                 button.disabled = false;
+
                 button.textContent = "INITIALIZE MISSION";
             }
         };
 
-        // SAVE AFTER EVERY LAB
+        // TRAINING ANSWERS
+
+        function checkAnswer(index, answer) {
+
+            const value = answer.trim();
+
+            switch (index) {
+
+                case 0:
+                    return value.toLowerCase() === "title";
+
+                case 1:
+                    return value ===
+                        atob("Q1RGe2RlY29kZV90aGVfc2lnbmFsfQ==");
+
+                case 2:
+                    return value.toUpperCase() === "TR-307";
+
+                case 3:
+                    return value.toLowerCase() === "pwd";
+
+                case 4:
+                    return value.toUpperCase() === "B-08:12:45";
+
+                default:
+                    return false;
+            }
+        }
+
+        // SAVE PROGRESS
 
         async function saveProgress(nextSolved) {
 
             const { data, error } = await db
                 .from("participants")
                 .update({
+
                     mission1: nextSolved[0],
                     mission2: nextSolved[1],
-                    mission3: nextSolved[2]
+                    mission3: nextSolved[2],
+                    mission4: nextSolved[3],
+                    mission5: nextSolved[4]
+
                 })
                 .eq("id", state.id)
                 .select("score, updated_at")
@@ -1139,27 +1294,7 @@
             return data;
         }
 
-        // FINAL LAB
-
-        $("startFinal").onclick = async () => {
-            if (!state || !state.solved[0] || !state.solved[1]) return;
-            const button = $("startFinal");
-            button.disabled = true;
-            try {
-                const { error } = await db.rpc("get_lab3_flag", {}, { get: true });
-                if (error) throw error;
-                finalStarted = true;
-                terminalLog("[ UNLOCKED ] Final lab.");
-                render();
-            } catch (error) {
-                terminalLog("[ ERROR ] " + error.message);
-                alert("Training request failed: " + error.message);
-            } finally {
-                button.disabled = false;
-            }
-        };
-
-        // VERIFY FLAGS
+        // VERIFY ANSWERS
 
         document.querySelectorAll("[data-mission]")
             .forEach(form => {
@@ -1176,15 +1311,13 @@
 
                     if (
                         i === 2 &&
-                        (
-                            !finalStarted ||
-                            !state.solved[0] ||
-                            !state.solved[1]
-                        )
+                        (!state.solved[0] || !state.solved[1])
                     ) return;
 
                     const input = form.querySelector("input");
+
                     const button = form.querySelector("button");
+
                     const status =
                         form.querySelector(".mission-status");
 
@@ -1193,12 +1326,10 @@
 
                     try {
 
-                        const hash = await hashText(input.value);
-
-                        if (hash !== flagHashes[i]) {
+                        if (!checkAnswer(i, input.value)) {
 
                             status.textContent =
-                                "Incorrect flag. Try again.";
+                                "Incorrect answer. Try again.";
 
                             status.className =
                                 "mission-status error";
@@ -1222,13 +1353,17 @@
                         }
 
                         terminalLog(
-                            "[ SUCCESS ] Lab " + (i + 1) +
-                            " completed. +" + points[i] + " points."
+                            "[ SUCCESS ] Lab " +
+                            (i + 1) +
+                            " completed. +" +
+                            points[i] +
+                            " points."
                         );
 
                         terminalLog(
                             "[ SAVED ] Score: " +
-                            saved.score + "/600"
+                            saved.score +
+                            "/1100"
                         );
 
                         render();
@@ -1242,11 +1377,14 @@
                         status.className =
                             "mission-status error";
 
-                        terminalLog("[ ERROR ] " + error.message);
+                        terminalLog(
+                            "[ ERROR ] " + error.message
+                        );
 
                     } finally {
 
                         saving = false;
+
                         button.disabled = state.solved[i];
                     }
                 };
@@ -1254,13 +1392,11 @@
 
         // LEADERBOARD
 
-        function addCell(row, value, className) {
+        function addCell(row, value) {
 
             const cell = document.createElement("td");
 
             cell.textContent = value;
-
-            if (className) cell.className = className;
 
             row.appendChild(cell);
         }
@@ -1272,7 +1408,9 @@
             podium.replaceChildren();
 
             const order = [1, 0, 2];
+
             const medals = ["🥇", "🥈", "🥉"];
+
             const classes = ["first", "second", "third"];
 
             order.forEach(index => {
@@ -1284,9 +1422,8 @@
                 card.className =
                     "podium-card " + classes[index];
 
-                const medal = document.createElement("div");
+                const medal = document.createElement("h1");
 
-                medal.className = "medal";
                 medal.textContent = medals[index];
 
                 const name = document.createElement("h3");
@@ -1334,17 +1471,13 @@
 
                     const row = document.createElement("tr");
 
-                    addCell(row, "#" + (index + 1), "rank");
+                    addCell(row, "#" + (index + 1));
 
                     addCell(row, player.agent_name);
 
-                    addCell(row, player.labs + "/3");
+                    addCell(row, player.labs + "/5");
 
-                    addCell(
-                        row,
-                        player.score + "/600",
-                        "score-cell"
-                    );
+                    addCell(row, player.score + "/1100");
 
                     addCell(
                         row,
@@ -1376,6 +1509,7 @@
         function showLeaderboard() {
 
             $("mainPage").hidden = true;
+
             $("leaderboardPage").hidden = false;
 
             loadLeaderboard();
@@ -1386,21 +1520,28 @@
         function showHome() {
 
             $("mainPage").hidden = false;
+
             $("leaderboardPage").hidden = true;
 
             window.scrollTo(0, 0);
         }
 
         $("leaderboardBtn").onclick = showLeaderboard;
+
         $("viewRanking").onclick = showLeaderboard;
+
         $("finalRanking").onclick = showLeaderboard;
+
         $("homeBtn").onclick = showHome;
+
         $("backBtn").onclick = showHome;
+
         $("refreshRanking").onclick = loadLeaderboard;
 
         setInterval(() => {
 
             if (!$("leaderboardPage").hidden) {
+
                 loadLeaderboard();
             }
 
@@ -1410,4 +1551,3 @@
 
 </body>
 </html>
-
