@@ -1,4 +1,4 @@
-﻿
+﻿دد
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -810,13 +810,17 @@
 
         // SUPABASE CONFIGURATION
 
-        const SUPABASE_URL = "YOUR_SUPABASE_URL";
-        const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+        const SUPABASE_URL = "https://oeqhoypopwnjmgrtfcuh.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_VUDcznMYrrEkbPRF-HewfQ_fRwgjQ32";
 
-        const db = supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+        let db = null;
+        let connectionError = null;
+        try {
+            if (!window.supabase) throw new Error("Supabase library failed to load. Refresh and check your connection.");
+            db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        } catch (error) {
+            connectionError = error.message;
+        }
 
         const $ = id => document.getElementById(id);
 
@@ -900,6 +904,7 @@
         terminalLog("[ OK ] Five training modules loaded.");
         terminalLog("[ READY ] Awaiting registration.");
         terminalLog("Type 'help' for commands.");
+        if (connectionError) terminalLog("[ ERROR ] " + connectionError);
 
         $("terminalForm").onsubmit = event => {
 
@@ -1170,6 +1175,7 @@
 
             try {
 
+                if (!db) throw new Error(connectionError || "Database unavailable");
                 let {
                     data: { session },
                     error: sessionError
@@ -1274,6 +1280,7 @@
 
         async function saveProgress(nextSolved) {
 
+            if (!db) throw new Error(connectionError || "Database unavailable");
             const { data, error } = await db
                 .from("participants")
                 .update({
@@ -1458,6 +1465,7 @@
 
             try {
 
+                if (!db) throw new Error(connectionError || "Database unavailable");
                 const { data, error } =
                     await db.rpc("get_leaderboard");
 
