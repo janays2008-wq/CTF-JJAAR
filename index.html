@@ -1255,7 +1255,9 @@
                     } catch (error) {
 
                         status.textContent =
-                            "Saving failed. Try again.";
+                            "Saving failed: " + error.message;
+
+                        console.error(error);
 
                         status.className =
                             "mission-status error";
