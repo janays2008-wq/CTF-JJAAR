@@ -657,9 +657,9 @@
                     <p>Review the fictional training record.</p>
 
                     <div class="code-box">
-                        Inspect the fictional training record below. <br><br>
+                        Inspect the fictional training records returned by the training service. <br><br>
                         Find the training agent named rahaf. <br><br>
-                        Her challenge_flag is the answer. <br><br> 
+                        Her challenge_flag is the answer. <br><br>
                     </div>
 
                     <form data-mission="4">
@@ -1173,9 +1173,21 @@
 
         // FINAL LAB
 
-        $("startFinal").onclick = () => {
+        $("startFinal").onclick = async () => {
             if (!state || !state.solved.slice(0, 4).every(Boolean)) return;
-            finalStarted = true; render();
+            const button = $("startFinal");
+            button.disabled = true;
+            try {
+                const { error } = await db.rpc("get_training_records", {}, { get: true });
+                if (error) throw error;
+                finalStarted = true;
+                render();
+            } catch (error) {
+                terminalLog("[ ERROR ] Training records: " + error.message);
+                alert("Training records unavailable: " + error.message);
+            } finally {
+                button.disabled = false;
+            }
         };
 
         // VERIFY FLAGS
